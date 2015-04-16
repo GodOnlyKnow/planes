@@ -383,6 +383,38 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="UserCommentImages">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="img" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="parent_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserCommentReplys">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user1_id" Type="int" Nullable="false" />
+          <Property Name="user2_id" Type="int" Nullable="false" />
+          <Property Name="body" Type="text" Nullable="false" />
+          <Property Name="created_at" Type="datetime" Nullable="false" />
+          <Property Name="parent_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserComments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="body" Type="text" Nullable="false" />
+          <Property Name="good" Type="int" Nullable="false" />
+          <Property Name="created_at" Type="datetime" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="gender" Type="tinyint" Nullable="false" />
+          <Property Name="type" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="user_id" />
@@ -698,6 +730,66 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserCommentImages_UserComments">
+          <End Role="UserComments" Type="Self.UserComments" Multiplicity="1" />
+          <End Role="UserCommentImages" Type="Self.UserCommentImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserComments">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserCommentImages">
+              <PropertyRef Name="parent_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCommentReplys_UserCommentReplys">
+          <End Role="UserComments" Type="Self.UserComments" Multiplicity="1" />
+          <End Role="UserCommentReplys" Type="Self.UserCommentReplys" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserComments">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserCommentReplys">
+              <PropertyRef Name="parent_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCommentReplys_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserCommentReplys" Type="Self.UserCommentReplys" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="UserCommentReplys">
+              <PropertyRef Name="user1_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCommentReplys_Users1">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserCommentReplys" Type="Self.UserCommentReplys" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="UserCommentReplys">
+              <PropertyRef Name="user2_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserComments_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserComments" Type="Self.UserComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="UserComments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_USERS_USERGROUP_LEVELS">
           <End Role="Levels" Type="Self.Levels" Multiplicity="1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -742,6 +834,9 @@
           <EntitySet Name="SellerMessage" EntityType="Self.SellerMessage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sellers" EntityType="Self.Sellers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserCommentImages" EntityType="Self.UserCommentImages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserCommentReplys" EntityType="Self.UserCommentReplys" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserComments" EntityType="Self.UserComments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AIRPORTS_SELLERSAR_AREAS" Association="Self.FK_AIRPORTS_SELLERSAR_AREAS">
             <End Role="Areas" EntitySet="Areas" />
@@ -838,6 +933,26 @@
           <AssociationSet Name="FK_Sellers_SellerGroup" Association="Self.FK_Sellers_SellerGroup">
             <End Role="SellerGroup" EntitySet="SellerGroup" />
             <End Role="Sellers" EntitySet="Sellers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCommentImages_UserComments" Association="Self.FK_UserCommentImages_UserComments">
+            <End Role="UserComments" EntitySet="UserComments" />
+            <End Role="UserCommentImages" EntitySet="UserCommentImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCommentReplys_UserCommentReplys" Association="Self.FK_UserCommentReplys_UserCommentReplys">
+            <End Role="UserComments" EntitySet="UserComments" />
+            <End Role="UserCommentReplys" EntitySet="UserCommentReplys" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCommentReplys_Users" Association="Self.FK_UserCommentReplys_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserCommentReplys" EntitySet="UserCommentReplys" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCommentReplys_Users1" Association="Self.FK_UserCommentReplys_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserCommentReplys" EntitySet="UserCommentReplys" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserComments_Users" Association="Self.FK_UserComments_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserComments" EntitySet="UserComments" />
           </AssociationSet>
           <AssociationSet Name="FK_USERS_USERGROUP_LEVELS" Association="Self.FK_USERS_USERGROUP_LEVELS">
             <End Role="Levels" EntitySet="Levels" />
@@ -1113,6 +1228,9 @@
           <Property Name="rand_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Feedback" Relationship="DBModel.FK_Feedback_Users" FromRole="Users" ToRole="Feedback" />
           <NavigationProperty Name="Entrys" Relationship="DBModel.FK_entry_Users" FromRole="Users" ToRole="Entrys" />
+          <NavigationProperty Name="UserComments" Relationship="DBModel.FK_UserComments_Users" FromRole="Users" ToRole="UserComments" />
+          <NavigationProperty Name="UserCommentReplys" Relationship="DBModel.FK_UserCommentReplys_Users" FromRole="Users" ToRole="UserCommentReplys" />
+          <NavigationProperty Name="UserCommentReplys1" Relationship="DBModel.FK_UserCommentReplys_Users1" FromRole="Users" ToRole="UserCommentReplys" />
         </EntityType>
         <Association Name="FK_LOGINLOG_ADMINLOGS_ADMINS">
           <End Role="Admins" Type="Self.Admins" Multiplicity="0..1" />
@@ -1389,6 +1507,29 @@
           <AssociationSet Name="FK_entry_Users" Association="DBModel.FK_entry_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Entrys" EntitySet="Entrys" />
+          </AssociationSet>
+          <EntitySet Name="UserCommentImages" EntityType="DBModel.UserCommentImages" />
+          <EntitySet Name="UserCommentReplys" EntityType="DBModel.UserCommentReplys" />
+          <EntitySet Name="UserComments" EntityType="DBModel.UserComments" />
+          <AssociationSet Name="FK_UserCommentImages_UserComments" Association="DBModel.FK_UserCommentImages_UserComments">
+            <End Role="UserComments" EntitySet="UserComments" />
+            <End Role="UserCommentImages" EntitySet="UserCommentImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCommentReplys_UserCommentReplys" Association="DBModel.FK_UserCommentReplys_UserCommentReplys">
+            <End Role="UserComments" EntitySet="UserComments" />
+            <End Role="UserCommentReplys" EntitySet="UserCommentReplys" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserComments_Users" Association="DBModel.FK_UserComments_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserComments" EntitySet="UserComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCommentReplys_Users" Association="DBModel.FK_UserCommentReplys_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserCommentReplys" EntitySet="UserCommentReplys" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCommentReplys_Users1" Association="DBModel.FK_UserCommentReplys_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserCommentReplys" EntitySet="UserCommentReplys" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="SellerGroup">
@@ -1785,6 +1926,105 @@
             </Principal>
             <Dependent Role="Entrys">
               <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserCommentImages">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="img" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="parent_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserComments" Relationship="DBModel.FK_UserCommentImages_UserComments" FromRole="UserCommentImages" ToRole="UserComments" />
+        </EntityType>
+        <EntityType Name="UserCommentReplys">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user1_id" Type="Int32" Nullable="false" />
+          <Property Name="user2_id" Type="Int32" Nullable="false" />
+          <Property Name="body" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="parent_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserComments" Relationship="DBModel.FK_UserCommentReplys_UserCommentReplys" FromRole="UserCommentReplys" ToRole="UserComments" />
+          <NavigationProperty Name="Users" Relationship="DBModel.FK_UserCommentReplys_Users" FromRole="UserCommentReplys" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="DBModel.FK_UserCommentReplys_Users1" FromRole="UserCommentReplys" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="UserComments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="body" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="good" Type="Int32" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="Byte" Nullable="false" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserCommentImages" Relationship="DBModel.FK_UserCommentImages_UserComments" FromRole="UserComments" ToRole="UserCommentImages" />
+          <NavigationProperty Name="UserCommentReplys" Relationship="DBModel.FK_UserCommentReplys_UserCommentReplys" FromRole="UserComments" ToRole="UserCommentReplys" />
+          <NavigationProperty Name="Users" Relationship="DBModel.FK_UserComments_Users" FromRole="UserComments" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_UserCommentImages_UserComments">
+          <End Type="DBModel.UserComments" Role="UserComments" Multiplicity="1" />
+          <End Type="DBModel.UserCommentImages" Role="UserCommentImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserComments">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserCommentImages">
+              <PropertyRef Name="parent_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCommentReplys_UserCommentReplys">
+          <End Type="DBModel.UserComments" Role="UserComments" Multiplicity="1" />
+          <End Type="DBModel.UserCommentReplys" Role="UserCommentReplys" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserComments">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserCommentReplys">
+              <PropertyRef Name="parent_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserComments_Users">
+          <End Type="DBModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="DBModel.UserComments" Role="UserComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="UserComments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCommentReplys_Users">
+          <End Type="DBModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="DBModel.UserCommentReplys" Role="UserCommentReplys" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="UserCommentReplys">
+              <PropertyRef Name="user1_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCommentReplys_Users1">
+          <End Type="DBModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="DBModel.UserCommentReplys" Role="UserCommentReplys" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="UserCommentReplys">
+              <PropertyRef Name="user2_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2215,6 +2455,41 @@
                 <ScalarProperty Name="id_card" ColumnName="id_card" />
                 <ScalarProperty Name="phone" ColumnName="phone" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCommentImages">
+            <EntityTypeMapping TypeName="DBModel.UserCommentImages">
+              <MappingFragment StoreEntitySet="UserCommentImages">
+                <ScalarProperty Name="parent_id" ColumnName="parent_id" />
+                <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCommentReplys">
+            <EntityTypeMapping TypeName="DBModel.UserCommentReplys">
+              <MappingFragment StoreEntitySet="UserCommentReplys">
+                <ScalarProperty Name="parent_id" ColumnName="parent_id" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="body" ColumnName="body" />
+                <ScalarProperty Name="user2_id" ColumnName="user2_id" />
+                <ScalarProperty Name="user1_id" ColumnName="user1_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserComments">
+            <EntityTypeMapping TypeName="DBModel.UserComments">
+              <MappingFragment StoreEntitySet="UserComments">
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="good" ColumnName="good" />
+                <ScalarProperty Name="body" ColumnName="body" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

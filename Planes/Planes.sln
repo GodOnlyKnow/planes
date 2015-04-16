@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planes", "Planes\Planes.csproj", "{6577EA42-4C90-4BB7-8E29-0A2A2F4ADC09}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestApi", "UnitTestApi\UnitTestApi.csproj", "{C80AE4EB-7014-43D8-80FF-FCA197F02476}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPSTest", "GPSTest\GPSTest.csproj", "{28E8C09A-E086-4168-B9B5-5B346FD27B54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{6577EA42-4C90-4BB7-8E29-0A2A2F4ADC09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6577EA42-4C90-4BB7-8E29-0A2A2F4ADC09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6577EA42-4C90-4BB7-8E29-0A2A2F4ADC09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C80AE4EB-7014-43D8-80FF-FCA197F02476}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C80AE4EB-7014-43D8-80FF-FCA197F02476}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C80AE4EB-7014-43D8-80FF-FCA197F02476}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C80AE4EB-7014-43D8-80FF-FCA197F02476}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28E8C09A-E086-4168-B9B5-5B346FD27B54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28E8C09A-E086-4168-B9B5-5B346FD27B54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28E8C09A-E086-4168-B9B5-5B346FD27B54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28E8C09A-E086-4168-B9B5-5B346FD27B54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

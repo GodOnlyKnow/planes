@@ -15,6 +15,10 @@ namespace Planes.Controllers
     {
         private planeEntities db = new planeEntities();
 
+        public ApiController() 
+        {
+        }
+
         public ActionResult Test()
         {
             return View();
@@ -90,36 +94,6 @@ namespace Planes.Controllers
             return ModifyUserProfile(model);
         }
         
-        // 获取用户订单
-        public JsonResult UserOrders(ApiUserOrderRequestModel model)
-        {
-            if (!Phone(model.phone)) return E("用户不存在");
-            var user = db.Users.Where(x => x.phone == model.phone).First();
-            var os = db.Orders
-                        .Where(x => x.user_id == user.user_id)
-                        .OrderByDescending(x => x.created_at)
-                        .ToPagedList(model.page,model.pageSize);
-            var list = new List<ApiUserOrderModel>();
-            var types = db.OrderType.Select(x => x.name).ToArray();
-            foreach (var o in os)
-            {
-                list.Add(new ApiUserOrderModel() { 
-                    orderId = o.orderId,
-                    createdAt = o.created_at.Value.ToString("y-M-d H:m:s"),
-                    price = o.amount ?? 0,
-                    status = types[o.type_id ?? 0 - 1],
-                    name = o.Goods.name,
-                    img = "http://" + Request.Url.Host + ":" + Request.Url.Port + "/" + o.Goods.img
-                });
-            }
-            return S("获取成功", list);
-        }
-        public JsonResult UserOrdersJson(string json)
-        {
-            var serializer = new JavaScriptSerializer();
-            var model = serializer.Deserialize<ApiUserOrderRequestModel>(json);
-            return UserOrders(model);
-        }
 
         // 用户修改密码
         public JsonResult UserChangePassword(ApiUserChangePasswordRequestModel model)
@@ -342,7 +316,7 @@ namespace Planes.Controllers
             var tmp = db.Areas.ToList().Select(x => new ApiGetAreasModel()
             {
                 id = x.area_id,
-                dis = (GetDistance(x.location, model.lat, model.lng).ToString()),
+                dis = (GetDistance(x.location, model.lat, model.lng)),
                 idString = x.area_id.ToString(),
                 name = x.name,
                 address = x.address,
@@ -354,7 +328,7 @@ namespace Planes.Controllers
                     idString = xx.seller_id.ToString(),
                     name = xx.Sellers.name,
                     img = xx.Sellers.img,
-                    planes = x.Goods.Select(xxx => new ApiPlaneAAAModel() 
+                    planes = x.Goods.Where(s => s.type_id == 8).Select(xxx => new ApiPlaneAAAModel() 
                     { 
                         id = xxx.good_id,
                         idString = xxx.good_id.ToString(),
@@ -400,8 +374,9 @@ namespace Planes.Controllers
                 img = x.img,
                 lat = x.Airports.First().location.Split('|')[1],
                 lng = x.Airports.First().location.Split('|')[0],
-                dis = GetDistance(x.Airports.First().location,model.lat,model.lng).ToString(),
-                planes = x.Goods.Select(xxx => new ApiPlaneAAAModel()
+                address = x.Airports.First().address,
+                dis = GetDistance(x.Airports.First().location,model.lat,model.lng),
+                planes = x.Goods.Where(s => s.type_id == 8).Select(xxx => new ApiPlaneAAAModel()
                 {
                     id = xxx.good_id,
                     idString = xxx.good_id.ToString(),
@@ -437,7 +412,7 @@ namespace Planes.Controllers
             // 获取 特价包机
         public JsonResult GetPlaneBBB(ApiGetPlaneBBBRequestModel model)
         {
-            var tmp = db.Goods.ToList().Where(x => x.type_id == 6).Select(x => new ApiGetPlaneBBBModel()
+            var tmp = db.Goods.ToList().Where(x => x.type_id == 7).Select(x => new ApiGetPlaneCCCModel()
             { 
                 id = x.good_id,
                 idString = x.good_id.ToString(),
@@ -446,12 +421,14 @@ namespace Planes.Controllers
                 model = x.model,
                 col4 = x.col4,
                 col3 = x.col3,
+                col5 = x.col5,
+                col6 = x.col6,
                 price = x.price ?? 0,
                 unit = x.unit,
                 desc = x.desci,
                 name = x.name,
                 imgs = x.GoodImages.Select(xx => xx.img).ToArray(),
-                dis = GetDistance(x.Areas.location, model.lat, model.lng).ToString(),
+                dis = GetDistance(x.Areas.location, model.lat, model.lng),
                 lat = x.Areas.location.Split('|')[1],
                 lng = x.Areas.location.Split('|')[0]
             }).OrderBy(x => x.dis).ToPagedList(model.page,model.pageSize);
@@ -468,7 +445,7 @@ namespace Planes.Controllers
             // 获取 飞的航线
         public JsonResult GetPlaneCCC(ApiGetPlaneBBBRequestModel model)
         {
-            var tmp = db.Goods.ToList().Where(x => x.type_id == 7).Select(x => new ApiGetPlaneCCCModel()
+            var tmp = db.Goods.ToList().Where(x => x.type_id == 6).Select(x => new ApiGetPlaneBBBModel()
             {
                 id = x.good_id,
                 idString = x.good_id.ToString(),
@@ -482,8 +459,8 @@ namespace Planes.Controllers
                 desc = x.desci,
                 name = x.name,
                 imgs = x.GoodImages.Select(xx => xx.img).ToArray(),
-                col5 = x.col5,
-                dis = GetDistance(x.Areas.location, model.lat, model.lng).ToString(),
+                
+                dis = GetDistance(x.Areas.location, model.lat, model.lng),
                 lat = x.Areas.location.Split('|')[1],
                 lng = x.Areas.location.Split('|')[0]
             }).OrderBy(x => x.dis).ToPagedList(model.page, model.pageSize);
@@ -523,7 +500,7 @@ namespace Planes.Controllers
                 idString = x.seller_id.ToString(),
                 name = x.name,
                 img = x.img,
-                dis = GetDistance(x.Airports.First().location, model.lat, model.lng).ToString(),
+                dis = GetDistance(x.Airports.First().location, model.lat, model.lng),
                 lat = x.Airports.First().location.Split('|')[1],
                 lng = x.Airports.First().location.Split('|')[0],
                 planes = x.Goods.Select(xxx => new ApiSchoolPlaneModel()
@@ -571,7 +548,7 @@ namespace Planes.Controllers
                 idString = x.seller_id.ToString(),
                 name = x.name,
                 img = x.img,
-                dis = GetDistance(x.Airports.First().location, model.lat, model.lng).ToString(),
+                dis = GetDistance(x.Airports.First().location, model.lat, model.lng),
                 lat = x.Airports.First().location.Split('|')[1],
                 lng = x.Airports.First().location.Split('|')[0],
                 planes = x.Goods.Select(xxx => new ApiSchoolPlaneModel()
@@ -800,22 +777,23 @@ namespace Planes.Controllers
 
         // 提交报名表
             
-        public JsonResult SendEntry(ApiSendEntryRequestModel model)
+        public JsonResult SendEntry(ApiSendEntryRequestModel ms)
         {
             db.Entrys.Add(new Entrys() { 
-                name = model.name,
-                phone = model.phone,
-                id_card = model.idCard,
-                address = model.address,
-                model = model.model,
-                typename = model.typeName,
-                start = model.start,
-                end = model.end,
-                desci = model.desc,
-                type = model.type,
+                name = ms.name,
+                phone = ms.phone,
+                id_card = ms.idCard,
+                address = ms.address,
+                model = ms.model,
+                typename = ms.typeName,
+                start = ms.start,
+                end = ms.end,
+                desci = ms.desc,
+                type = ms.type,
                 created_at = DateTime.Now,
-                user_id = db.Users.Where(x => x.phone == model.phone).First().user_id
+                user_id = db.Users.Where(x => x.phone == ms.phone).First().user_id
             });
+            db.SaveChanges();
             return S("提交成功");
         }
          public JsonResult SendEntryJson(string json)
@@ -828,7 +806,7 @@ namespace Planes.Controllers
         // 获取 报名表
         public JsonResult GetEntrys(string phone)
         {
-            var tmp = db.Entrys.Where(x => x.phone == phone).Select(x => new ApiSendEntryRequestModel() { 
+            var tmp = db.Entrys.ToList().Where(x => x.phone == phone).Select(x => new ApiSendEntryRequestModel() { 
                 name = x.name,
                 phone = x.phone,
                 idCard = x.id_card,
@@ -854,7 +832,7 @@ namespace Planes.Controllers
                 user_id = db.Users.Where(x => x.phone == model.phone).First().user_id,
                 body = model.body
             });
-
+            db.SaveChanges();
             return S("提交成功");
         }
         public JsonResult SendFeedbackJson(string json)
@@ -865,8 +843,265 @@ namespace Planes.Controllers
         }
 
 
+        // 用户 获取 互动吧
+        public JsonResult GetUserComments(ApiGetUserCommentsRequest model)
+        {
+            var tmp = db.UserComments.ToList().Where(x => x.type == 0).OrderByDescending(x => x.created_at).Select(x => new ApiGetUserCommentsModel()
+            {
+                id = x.id,
+                idString = x.id.ToString(),
+                userName = x.Users.username,
+                userImg = x.Users.head_img,
+                createdAt = x.created_at.ToString("y-M-d H:m:s"),
+                body = x.body,
+                imgs = x.UserCommentImages.Select(xx => xx.img).ToArray(),
+                replys = x.UserCommentReplys.Select(xx => new ApiUserCommentReplyModel() { 
+                    id = xx.id,
+                    idString = xx.id.ToString(),
+                    userFrom = xx.Users.username,
+                    userFromRandId = xx.Users.rand_id,
+                    userTo = xx.Users1.username,
+                    userToRandId = xx.Users1.rand_id,
+                    body = xx.body,
+                    createdAt = xx.created_at.ToString("y-M-d H:m:s")
+                }).ToList()
+            }).ToPagedList(model.page,model.pageSize);
+
+            return S("获取成功",tmp);
+        }
 
 
+        // 互动吧 新增
+            // 第一步：上传图片
+            // base64
+        // public JsonResult UploadImageBase64(ApiUploadImageBase64Model model)
+
+            // http post 模拟表单
+        // public JsonResult UploadImagePost(ApiUploadImagePostModel model)
+            
+        
+            // 第二步：上传用户phone，文字内容
+
+        public JsonResult AddUserComment(ApiAddUserCommentRequest model)
+        {
+            var tmp = db.UserComments.Add(new UserComments() { 
+                user_id = db.Users.Where(x => x.phone == model.phone).Select(x => x.user_id).First(),
+                body = model.body,
+                created_at = DateTime.Now,
+                name = "null",
+                good = 0,
+                type = 0
+            });
+            foreach (var s in model.imgs.Split(','))
+            {
+                db.UserCommentImages.Add(new UserCommentImages() { 
+                    parent_id = tmp.id,
+                    img = s
+                });
+            }
+            db.SaveChanges();
+            return S("发布成功");
+        }
+
+
+        // 互动吧 点赞
+        public JsonResult AddUserCommentGood(ApiUserCommentGoodRequest model)
+        {
+            var tmp = db.UserComments.Where(x => x.id == model.id).First();
+            tmp.good += model.good;
+            db.SaveChanges();
+            return S("点赞成功");
+        }
+
+        // 新增 回复
+        public JsonResult AddUserCommentReply(ApiAddUserCommentReplyRequest model)
+        {
+            db.UserCommentReplys.Add(new UserCommentReplys() { 
+                body = model.body,
+                parent_id = model.id,
+                user1_id = db.Users.Where(x => x.rand_id == model.userFromRandId).Select(x => x.user_id).First(),
+                user2_id = db.Users.Where(x => x.rand_id == model.userToRandId).Select(x => x.user_id).First(),
+                created_at = DateTime.Now
+            });
+            db.SaveChanges();
+            return S("回复成功");
+        }
+
+
+
+        // 获取 学姐学长在这里
+        public JsonResult GetWTFComments(ApiGetUserCommentsRequest model)
+        {
+            var tmp = db.UserComments.ToList().Where(x => x.type == 1).OrderByDescending(x => x.created_at).Select(x => new ApiGetWTFCommentsModel()
+            {
+                id = x.id,
+                idString = x.id.ToString(),
+                userName = x.Users.username,
+                userImg = x.Users.head_img,
+                createdAt = x.created_at.ToString("y-M-d H:m:s"),
+                body = x.body,
+                name = x.name,
+                gender = x.gender,
+                imgs = x.UserCommentImages.Select(xx => xx.img).ToArray(),
+                replys = x.UserCommentReplys.Select(xx => new ApiUserCommentReplyModel()
+                {
+                    id = xx.id,
+                    idString = xx.id.ToString(),
+                    userFrom = xx.Users.username,
+                    userFromRandId = xx.Users.rand_id,
+                    userTo = xx.Users1.username,
+                    userToRandId = xx.Users1.rand_id,
+                    body = xx.body,
+                    createdAt = xx.created_at.ToString("y-M-d H:m:s")
+                }).ToList()
+            }).ToPagedList(model.page, model.pageSize);
+
+            return S("获取成功", tmp);
+        }
+
+
+        // 学姐学长在这里 新增
+        // 第一步：上传图片
+        // base64
+        // public JsonResult UploadImageBase64(ApiUploadImageBase64Model model)
+
+        // http post 模拟表单
+        // public JsonResult UploadImagePost(ApiUploadImagePostModel model)
+
+
+        // 第二步：上传用户phone，文字内容
+
+        public JsonResult AddWTFComment(ApiAddWTFCommentRequest model)
+        {
+            var tmp = db.UserComments.Add(new UserComments()
+            {
+                user_id = db.Users.Where(x => x.phone == model.phone).Select(x => x.user_id).First(),
+                body = model.body,
+                created_at = DateTime.Now,
+                name = model.name,
+                good = 0,
+                type = 1,
+                gender = model.gender
+            });
+            foreach (var s in model.imgs.Split(','))
+            {
+                db.UserCommentImages.Add(new UserCommentImages()
+                {
+                    parent_id = tmp.id,
+                    img = s
+                });
+            }
+            db.SaveChanges();
+            return S("发布成功");
+        }
+
+
+        // 学姐学长在这里 点赞
+        public JsonResult AddWTFCommentGood(ApiUserCommentGoodRequest model)
+        {
+            var tmp = db.UserComments.Where(x => x.id == model.id).First();
+            tmp.good += model.good;
+            db.SaveChanges();
+            return S("点赞成功");
+        }
+
+        // 新增 回复
+        public JsonResult AddWTFCommentReply(ApiAddUserCommentReplyRequest model)
+        {
+            db.UserCommentReplys.Add(new UserCommentReplys()
+            {
+                body = model.body,
+                parent_id = model.id,
+                user1_id = db.Users.Where(x => x.rand_id == model.userFromRandId).Select(x => x.user_id).First(),
+                user2_id = db.Users.Where(x => x.rand_id == model.userToRandId).Select(x => x.user_id).First(),
+                created_at = DateTime.Now
+            });
+            db.SaveChanges();
+            return S("回复成功");
+        }
+
+
+        //  提交 订单
+        public JsonResult AddOrder(ApiAddOrderRequest model)
+        {
+            if (!Phone(model.phone)) return E("用户不存在");
+            var good = db.Goods.Where(x => x.good_id == model.goodId).First();
+            var userId = db.Users.Where(x => x.phone == model.phone).Select(x => x.user_id).First();
+            var order = new Orders();
+            order.amount = model.price;
+            order.created_at = DateTime.Now;
+            order.good_id = good.good_id;
+            order.status = 0;
+            order.type_id = model.type;
+            order.user_id = userId;
+            Random rand = new Random();
+            order.orderId = DateTime.Now.ToString("yMdHmsfff") + rand.Next();
+            
+            switch (model.type)
+            {
+                case 1:
+                    order.col2 = model.desc;
+                    order.col1 = good.col11;
+                    break;
+                case 2:
+                    order.col1 = model.desc;
+                    break;
+                case 3:
+                    order.col1 = good.col3;
+                    order.col2 = good.col11;
+                    order.col3 = good.col1 + " - " + good.col2;
+                    order.col4 = good.col4;
+                    order.col5 = model.desc;
+                    break;
+                case 4:
+                    order.col1 = model.desc;
+                    break;
+            }
+
+            db.Orders.Add(order);
+            return S("提交成功");
+        }
+
+        // 更新订单状态
+        public JsonResult ChangeOrderStatus(ApiChangeOrderStatusRequest model)
+        {
+            var tmp = db.Orders.Where(x => x.order_id == model.id).First();
+            tmp.status = model.status;
+            db.SaveChanges();
+            return S("更改成功");
+        }
+
+        // 获取用户订单
+        public JsonResult UserOrders(ApiUserOrderRequestModel model)
+        {
+            if (!Phone(model.phone)) return E("用户不存在");
+            var user = db.Users.Where(x => x.phone == model.phone).First();
+            var os = db.Orders
+                        .Where(x => x.user_id == user.user_id)
+                        .OrderByDescending(x => x.created_at)
+                        .ToPagedList(model.page, model.pageSize);
+            var list = new List<ApiUserOrderModel>();
+            string[] sss = { "待支付", "已支付", "订单取消" };
+            foreach (var o in os)
+            {
+                list.Add(new ApiUserOrderModel()
+                {
+                    orderId = o.orderId,
+                    createdAt = o.created_at.Value.ToString("y-M-d H:m:s"),
+                    price = o.amount ?? 0,
+                    status = sss[o.status ?? 0],
+                    name = o.Goods.name,
+                    img = "http://" + Request.Url.Host + ":" + Request.Url.Port + "/" + o.Goods.img
+                });
+            }
+            return S("获取成功", list);
+        }
+        public JsonResult UserOrdersJson(string json)
+        {
+            var serializer = new JavaScriptSerializer();
+            var model = serializer.Deserialize<ApiUserOrderRequestModel>(json);
+            return UserOrders(model);
+        }
 
 
 
@@ -875,9 +1110,10 @@ namespace Planes.Controllers
         public double GetDistance(string loc,double lat,double lng)
         {
             var lc = loc.Split('|');
-            var x = lat - double.Parse(lc[1]);
-            var y = lng - double.Parse(lc[0]);
-            return Math.Pow(x * x - y * y, 0.5f);
+            //var x = lat - double.Parse(lc[1]);
+            //var y = lng - double.Parse(lc[0]);
+            //return Math.Pow(x * x - y * y, 0.5f);
+            return GetDistance(double.Parse(lc[1]),double.Parse(lc[0]),lat,lng);
         }
         public double GetDistance(double lat1, double lng1, double lat2, double lng2)
         {

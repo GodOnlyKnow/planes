@@ -169,7 +169,8 @@ namespace Planes.Controllers
                         desci = model.Desci,
                         col9 = model.Col9,
                         col10 = model.Col10,
-                        unit = model.Unit ?? "元"
+                        unit = model.Unit ?? "元",
+                        col11 = model.Col11
                     });
                     foreach (var f in model.Imgs)
                     {
@@ -227,6 +228,7 @@ namespace Planes.Controllers
                      Col8 = good.col8,
                      Col9 = good.col9,
                      Col10 = good.col10,
+                     Col11 = good.col11,
                       Desci = good.desci,
                        GoodType = good.GoodTypes.type_id,
                       ImgUrl = good.img,
@@ -271,6 +273,7 @@ namespace Planes.Controllers
                     good.col8 = model.Col8;
                     good.col9 = model.Col9;
                     good.col10 = model.Col10;
+                    good.col11 = model.Col11;
                     model.ImgUrl = good.img = "Images/Planes/" + fileName;
                     good.market_price = model.MarketPrice;
                     good.model = model.Modelss;

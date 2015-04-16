@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "报名表";
+    ViewBag.SiderBar = 7;
+}
+
+@using PagedList;
+@using PagedList.Mvc;
+
+<hr />
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th>手机号</th>
+                <th>身份证</th>
+                <th>地址</th>
+                <th>机型</th>
+                <th>类型</th>
+                <th>价格/学习时间</th>
+                <th>备注</th>
+                <th>提交时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 0;
+            }
+            @foreach (var m in ViewBag.Data)
+            {
+              <tr>
+                  <td>@m.name</td>
+                  <td>@m.phone</td>
+                  <td>@m.id_card</td>
+                  <td>@m.address</td>
+                  <td>@m.model</td>
+                  <td>@m.typename</td>
+                  <td>@m.start - @m.end</td>
+                  <td>@m.desci</td>
+                  <td>@m.created_at</td>
+                    <td>
+                        <a class="button button-small button-caution" href="/Entry/Delete/@m.id">删除</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.PagedListPager((IPagedList)ViewBag.Data, page => Url.Action("Index", new
+{
+    page = page
+}))
+</div>
+

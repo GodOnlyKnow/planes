@@ -51,6 +51,8 @@ namespace Planes.Models
         public string Col10 { get; set; }
         [Display(Name = "销售类型")]
         public int GoodType { get; set; }
+        [Display(Name = "学习时间")]
+        public string Col11 { get; set; }
         public HttpPostedFileBase[] Imgs { get; set; }
     }
 

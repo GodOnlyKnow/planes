@@ -181,7 +181,9 @@
     <Compile Include="Controllers\AdsController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\AreaController.cs" />
+    <Compile Include="Controllers\EntryController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FeedbackController.cs" />
     <Compile Include="Controllers\GoodCommentController.cs" />
     <Compile Include="Controllers\GoodController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -313,6 +315,15 @@
       <DependentUpon>PlanelDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>PlanelDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserCommentImages.cs">
+      <DependentUpon>PlanelDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserCommentReplys.cs">
+      <DependentUpon>PlanelDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserComments.cs">
       <DependentUpon>PlanelDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Users.cs">
@@ -1236,6 +1247,8 @@
     <Content Include="Views\Plane\CreateC.cshtml" />
     <Content Include="Views\Plane\DetailC.cshtml" />
     <Content Include="Views\Api\Test.cshtml" />
+    <Content Include="Views\Entry\Index.cshtml" />
+    <Content Include="Views\Feedback\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -128,7 +128,8 @@ namespace Planes.Controllers
                 visited = 0,
                 col4 = model.Col4,
                 col5 = model.Col5,
-                unit = model.Unit ?? "元"
+                unit = model.Unit ?? "元",
+                col6 = model.Col6
             });
             foreach (var f in model.Imgs)
             {
@@ -219,7 +220,8 @@ namespace Planes.Controllers
                 ImgUrls = imgs.ToArray(),
                 Col4 = good.col4,
                Col5 = good.col5,
-               Unit = good.unit
+               Unit = good.unit,
+               Col6 = good.col6
             });
         }
 
@@ -238,6 +240,7 @@ namespace Planes.Controllers
             tmp.col4 = model.Col4;
             tmp.col5 = model.Col5;
             tmp.unit = model.Unit;
+            tmp.col6 = model.Col6;
             if (model.Imgs.Count() > 1 || model.Imgs[0] != null)
             {
                 var imgs = db.GoodImages.Where(x => x.good_id == tmp.good_id);

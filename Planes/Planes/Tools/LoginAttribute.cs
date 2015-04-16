@@ -37,4 +37,12 @@ namespace Planes.Tools
             return true;
         }
     }
+
+    public class ACAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            base.OnActionExecuting(filterContext);
+        }
+    }
 }

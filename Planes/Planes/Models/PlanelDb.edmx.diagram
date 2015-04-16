@@ -26,13 +26,13 @@
         <AssociationConnector Association="DBModel.FK_AIRPORTS_SELLERSAR_AREAS" ManuallyRouted="false" />
         <AssociationConnector Association="DBModel.FK_AIRPORTS_SELLERSAR_SELLERS" ManuallyRouted="false" />
         <AssociationConnector Association="DBModel.FK_GOODS_AREAGOODS_AREAS" ManuallyRouted="true" >
-          <ConnectorPoint PointX="2.25" PointY="8.05641331735292" />
-          <ConnectorPoint PointX="2.567727244298978" PointY="8.3922286020509986" />
-          <ConnectorPoint PointX="2.7760227557010229" PointY="8.6123822644073478" />
+          <ConnectorPoint PointX="2.25" PointY="8.0661476652843831" />
+          <ConnectorPoint PointX="2.6611172123483287" PointY="8.4955106291513172" />
+          <ConnectorPoint PointX="2.7763827876516718" PointY="8.61589179432165" />
           <ConnectorPoint PointX="3.0257342152585" PointY="8.8763096624769915" />
           <ConnectorPoint PointX="3.464330955328788" PointY="8.8763096624769915" />
           <ConnectorPoint PointX="4.500005" PointY="8.6111185221403854" />
-          <ConnectorPoint PointX="6" PointY="8.8844575474867433" />
+          <ConnectorPoint PointX="6" PointY="8.88865055292839" />
         </AssociationConnector>
         <AssociationConnector Association="DBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="DBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
@@ -73,6 +73,14 @@
         <AssociationConnector Association="DBModel.FK_Feedback_Users" />
         <EntityTypeShape EntityType="DBModel.Entrys" Width="1.5" PointX="13.25" PointY="24.625" />
         <AssociationConnector Association="DBModel.FK_entry_Users" />
+        <EntityTypeShape EntityType="DBModel.UserCommentImages" Width="1.5" PointX="15.5" PointY="32.375" />
+        <EntityTypeShape EntityType="DBModel.UserCommentReplys" Width="1.5" PointX="15.5" PointY="29.375" />
+        <EntityTypeShape EntityType="DBModel.UserComments" Width="1.5" PointX="13.25" PointY="30.25" />
+        <AssociationConnector Association="DBModel.FK_UserCommentImages_UserComments" />
+        <AssociationConnector Association="DBModel.FK_UserCommentReplys_UserCommentReplys" />
+        <AssociationConnector Association="DBModel.FK_UserComments_Users" />
+        <AssociationConnector Association="DBModel.FK_UserCommentReplys_Users" />
+        <AssociationConnector Association="DBModel.FK_UserCommentReplys_Users1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -72,7 +72,7 @@ namespace Planes.Controllers
             return RedirectToAction("Index");
         }
 
-        public JsonResult ChangeStatus(int id)
+        public JsonResult ChangeStatus(int id,int status)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace Planes.Controllers
                     order = db.Orders.Where(x => x.order_id == id).First();
                 else
                     order = db.Orders.Where(x => x.order_id == id && x.Goods.seller_id == LUser.Id).First();
-                order.status = order.status == 0 ? (short)1 : (short)0;
+                order.status = (short)status;
                 db.SaveChanges();
                 return Json(new { Status = order.status, Info = "更改成功", Code = 200 });
             }

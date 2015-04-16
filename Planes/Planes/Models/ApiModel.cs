@@ -178,7 +178,7 @@ namespace Planes.Models
     public class ApiSortModel
     {
         public int id { get; set; }
-        public string dis { get; set; }
+        public double dis { get; set; }
 
         public string lat { get; set; }
         public string lng { get; set; }
@@ -211,6 +211,7 @@ namespace Planes.Models
         public string idString { get; set; }
         public string name { get; set; }
         public string img { get; set; }
+        public string address { get; set; }
         public List<ApiPlaneAAAModel> planes { get; set; }
     }
 
@@ -273,7 +274,7 @@ namespace Planes.Models
         public int page { get; set; }
         public int pageSize { get; set; }
     }
-
+    // 获取 飞的航线
     public class ApiGetPlaneBBBModel : ApiSortModel
     {
         public string idString { get; set; }
@@ -285,7 +286,7 @@ namespace Planes.Models
         public string model { get; set; }
         [Display(Name = "人数")]
         public string col4 { get; set; }
-        [Display(Name = "时间")]
+        [Display(Name = "出发时间")]
         public string col3 { get; set; }
         [Display(Name = "价格")]
         public decimal price { get; set; }
@@ -299,11 +300,13 @@ namespace Planes.Models
         public string name { get; set; }
     }
 
-    // 获取 飞的航线
+    // 获取 特价包机
     public class ApiGetPlaneCCCModel : ApiGetPlaneBBBModel
     {
         [Display(Name = "航程")]
         public string col5 { get; set; }
+        [Display(Name = "返回时间")]
+        public string col6 { get; set; }
     }
 
 
@@ -425,5 +428,101 @@ namespace Planes.Models
     {
         public string phone { get; set; }
         public string body { get; set; }
+    }
+
+
+    // 用户 获取 互动吧 列表
+    public class ApiGetUserCommentsRequest
+    {
+        public int page { get; set; }
+        public int pageSize { get; set; }
+    }
+
+    public class ApiGetUserCommentsModel
+    {
+        public int id { get; set; }
+        public string idString { get; set; }
+        public string userName { get; set; }
+        public string userImg { get; set; }
+        public string createdAt { get; set; }
+        public string body { get; set; }
+        public string[] imgs { get; set; }
+        public List<ApiUserCommentReplyModel> replys { get; set; }
+    }
+        // 学姐学长在这里
+    public class ApiGetWTFCommentsModel : ApiGetUserCommentsModel
+    {
+        public string name { get; set; }
+        public byte gender { get; set; }
+    }
+        // 互动吧 回复
+    public class ApiUserCommentReplyModel
+    {
+        public int id { get; set; }
+        public string idString { get; set; }
+        public string userFrom { get; set; }
+        public string  userFromRandId { get; set; }
+        public string userTo { get; set; }
+        public string  userToRandId { get; set; }
+        public string body { get; set; }
+        public string createdAt { get; set; }
+    }
+
+    // 互动吧 新增
+    public class ApiAddUserCommentRequest
+    {
+        public string phone { get; set; }
+        public string imgs { get; set; } // 多图用 逗号(,) 分割
+        public string body { get; set; }
+    }
+        // 学姐学长在这里
+    public class ApiAddWTFCommentRequest : ApiAddUserCommentRequest
+    {
+        public string name { get; set; }
+        public byte gender { get; set; }
+    }
+
+    // 互动吧 点赞
+    public class ApiUserCommentGoodRequest
+    {
+        public int id { get; set; } // 那个啥的id
+        public int good { get; set; } // 1 or -1
+    }
+
+    // 新增 回复
+    public class ApiAddUserCommentReplyRequest
+    {
+        public int id { get; set; } // 上级id
+        public string userFromRandId { get; set; }
+        public string userToRandId { get; set; }
+        public string body { get; set; }
+    }
+
+
+    // 提交 订单
+    public class ApiAddOrderRequest
+    {
+        public string phone { get; set; }
+        public int goodId { get; set; }
+        public decimal price { get; set; }
+        public int type { get; set; }
+        // type 取值说明 ，表明 订单 类型
+        //  1    学飞行
+        //  2    买飞机
+        //  3    租飞机
+        //  4    航空装备
+        public string desc { get; set; }
+    }
+
+
+    // 更新订单状态
+    public class ApiChangeOrderStatusRequest
+    {
+        public int id { get; set; }
+        public short status { get; set; }
+        // status 
+       //    0   待支付
+        //   1   已支付
+        //   2   订单取消
     }
 }

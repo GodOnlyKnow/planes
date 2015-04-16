@@ -48,6 +48,12 @@
                     @Html.TextBoxFor(m => m.Unit, new { @class = "form-control", placeholder = "货币单位" })
                 </div>
             </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Col11, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-6">
+            @Html.TextBoxFor(m => m.Col11, new { @class = "form-control" })
+        </div>
+    </div>
         }
         <div class="form-group">
             @Html.LabelFor(m => m.GoodType, new { @class = "col-sm-2 control-label" })

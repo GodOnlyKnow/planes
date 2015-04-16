@@ -45,19 +45,27 @@
         <label class="control-label col-md-2">航程</label>
         <div class="col-md-6">
             <select class="form-control" name="Col5" id="Col5">
-                <option>单程</option>
-                <option>往返</option>
+                <option @if (Model.Col5 == "单程") {
+                            @:selected
+                        }>单程</option>
+                <option @if (Model.Col5 == "往返") {
+                            @:selected
+                        }>往返</option>
             </select>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-md-2">出发时间</label>
 
-        <div class="col-md-6">
+        <div class="col-md-3">
             @Html.TextBoxFor(m => m.Col3, new { @class = "form-control", @readonly = "true" })
         </div>
-
-
+        <div id="backtime" class="hide">
+            <label class="control-label col-md-2">返程时间</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.Col6, new { @class = "form-control", @readonly = "true" })
+            </div>
+        </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Price, new { @class = "col-sm-2 control-label" })
@@ -90,6 +98,13 @@
 @section scripts{
     <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
     <script>
+        $("#Col5").change(function () {
+            if ($(this).val() == "单程")
+                $("#backtime").removeClass().addClass("hide");
+            else
+                $("#backtime").removeClass();
+        });
+
         $("#Col3").datetimepicker({
             format: "yyyy-mm-dd hh:ii",
             autoclose: true,

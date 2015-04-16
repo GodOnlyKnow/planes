@@ -23,6 +23,9 @@ namespace Planes.Models
             this.MessageComments = new HashSet<MessageComments>();
             this.Feedback = new HashSet<Feedback>();
             this.Entrys = new HashSet<Entrys>();
+            this.UserComments = new HashSet<UserComments>();
+            this.UserCommentReplys = new HashSet<UserCommentReplys>();
+            this.UserCommentReplys1 = new HashSet<UserCommentReplys>();
         }
     
         public int user_id { get; set; }
@@ -48,5 +51,8 @@ namespace Planes.Models
         public virtual ICollection<MessageComments> MessageComments { get; set; }
         public virtual ICollection<Feedback> Feedback { get; set; }
         public virtual ICollection<Entrys> Entrys { get; set; }
+        public virtual ICollection<UserComments> UserComments { get; set; }
+        public virtual ICollection<UserCommentReplys> UserCommentReplys { get; set; }
+        public virtual ICollection<UserCommentReplys> UserCommentReplys1 { get; set; }
     }
 }

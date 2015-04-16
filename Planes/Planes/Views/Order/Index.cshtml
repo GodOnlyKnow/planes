@@ -30,6 +30,10 @@
                             {
                                 @:selected
                             }>已支付</option>
+                    <option value="1" @if (ViewData["Status"] != null && (int)ViewData["Status"] == 3)
+                            {
+                                @:selected
+                            }>订单取消</option>
                 </select>
             </div>
         </div>
@@ -74,20 +78,29 @@
             <td>@m.orderId</td>
             <td>@m.amount</td>
             <td class=" text-center">
-                <a class="button button-primary button-small" data-id="@m.order_id" onclick="changeStatus(this)">
-                    @if (m.status == 0)
-                    {
-                        @:待支付
+                <span class="button-dropdown" data-buttons="dropdown">
+                    <a class="button button-primary button-small" data-id="@m.order_id">
+                        @if (m.status == 0)
+                        {
+                            @:待支付
                             }
-                    else if (m.status == 1)
-                    {
-                        @:已支付
+                        else if (m.status == 1)
+                        {
+                            @:已支付
                             }
-                    else
-                    {
-                        @:支付未完成
+                        else
+                        {
+                            @:订单取消
                     }
-                </a>
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+
+                    <ul class="button-dropdown-list">
+                        <li><a href="#" onclick="changeStatus(this,0)">待支付</a></li>
+                        <li><a href="#" onclick="changeStatus(this,1)">已支付</a></li>
+                        <li><a href="#" onclick="changeStatus(this,2)">订单取消</a></li>
+                    </ul>
+                </span>
             </td>
             <td>
                 <a class="button button-small button-highlight" href="/Order/Details/@m.order_id">查看</a>
@@ -118,16 +131,20 @@
     </div>
 </div>
 @section scripts{
+    <script src="~/Scripts/buttons.js"></script>
     <script>
-        function changeStatus(r) {
-            $.post("/Order/ChangeStatus", { id: $(r).data("id") }, function (res) {
+        function changeStatus(t,s) {
+            var r = $(t).parent().parent().prev();
+            $.post("/Order/ChangeStatus", { id: $(r).data("id"),status:s }, function (res) {
                 $(".modal-body").html(res.Info);
                 $("#Modal").modal();
                 if (res.Code == 200) {
                     if (res.Status == 0)
-                        $(r).html("未支付");
+                        $(r).html('未支付<i class="fa fa-caret-down"></i>');
+                    else if (res.Status == 1)
+                        $(r).html('已支付<i class="fa fa-caret-down"></i>');
                     else
-                        $(r).html("已支付");
+                        $(r).html('订单取消<i class="fa fa-caret-down"></i>');
                 }
             });
         }

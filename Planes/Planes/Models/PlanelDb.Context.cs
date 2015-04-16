@@ -56,5 +56,8 @@ namespace Planes.Models
         public virtual DbSet<MessageCommentImages> MessageCommentImages { get; set; }
         public virtual DbSet<Feedback> Feedback { get; set; }
         public virtual DbSet<Entrys> Entrys { get; set; }
+        public virtual DbSet<UserCommentImages> UserCommentImages { get; set; }
+        public virtual DbSet<UserCommentReplys> UserCommentReplys { get; set; }
+        public virtual DbSet<UserComments> UserComments { get; set; }
     }
 }
