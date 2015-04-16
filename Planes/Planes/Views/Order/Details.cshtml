@@ -1,0 +1,56 @@
+﻿@model Planes.Models.Orders
+@{
+    ViewBag.Title = "订单详情";
+    ViewBag.SiderBar = 3;
+}
+<hr />
+<div class="row">
+    <div class="col-md-1">
+        <a class="button button-large button-primary button-border button-circle" href="/Order"><i class="fa fa-reply"></i></a>
+    </div>
+</div>
+<div class="row">
+    @using (Html.BeginForm("Details", "Order", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <div class="form-group">
+            <label class="col-sm-2 control-label">订单编号</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" disabled value="@Model.OrderType.sign@Model.orderId" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">订单日期</label>
+            <div class="col-sm-6">
+                @Html.TextBoxFor(m => m.created_at, new { @class = "form-control", disabled = "true" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">订单金额</label>
+            <div class="col-sm-6">
+                @Html.TextBoxFor(m => m.amount, new { @class = "form-control", disabled = "true" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">订单状态</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" disabled @if(Model.status == 1){
+                                                                            @:value="已支付"
+                                                                        }else{
+                                                                            @:value="未支付"
+                                                                        } />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">业务种类</label>
+            <div class="col-sm-6">
+                @Html.TextBoxFor(m => m.OrderType.name, new { @class = "form-control", disabled = "true" })
+            </div>
+        </div>
+        @Html.Partial("_Detail" + Model.type_id,Model)
+    }
+</div>
+
+
+
+
+

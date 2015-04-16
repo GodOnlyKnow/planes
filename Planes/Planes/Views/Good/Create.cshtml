@@ -1,0 +1,79 @@
+﻿@model Planes.Models.CreateGoodModel
+@{
+    ViewBag.Title = "新增";
+    ViewBag.SiderBar = 4;
+}
+<hr />
+<div class="row">
+    <div class="col-md-1">
+        <a class="button button-large button-primary button-border button-circle" href="/Good/Index"><i class="fa fa-reply"></i></a>
+    </div>
+    <div class="col-md-10">
+        @using (Html.BeginForm("Create", "Good", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            <div class="col-sm-offset-2 col-sm-10">
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Price, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-5">
+                    @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+                </div>
+                <div class="col-md-1">
+                    @Html.TextBoxFor(m => m.Unit, new { @class = "form-control", placeholder = "货币单位" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.TypeId, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(m => m.TypeId, ViewData["Types"] as List<SelectListItem>, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Desc, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6">
+                    @Html.TextAreaFor(m => m.Desc, new { @class = "form-control" })
+                </div>
+            </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">展示图片</label>
+        <div class="col-sm-6">
+            <input type="file" name="Img" id="Img" data-preview-file-type="image" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">介绍图片</label>
+        <div class="col-md-6">
+            <input type="file" name="Imgs" id="Imgs" multiple="multiple" data-preview-file-type="image" class="form-control" />
+        </div>
+    </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-4">
+                    <button class="btn btn-primary btn-block" type="submit">确定</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $("#Imgs").fileinput({
+            allowedFileTypes: ['image'],
+            allowedFileExtensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'],
+            showUpload: false
+        });
+
+        $("#Img").fileinput({
+            allowedFileTypes: ['image'],
+            allowedFileExtensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'],
+            showUpload: false
+        });
+    </script>
+}

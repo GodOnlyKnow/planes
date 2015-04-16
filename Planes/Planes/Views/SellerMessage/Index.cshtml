@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "动态管理";
+    ViewBag.SiderBar = 1;
+    int id = 0;
+    if (ViewBag.Data.Count > 0)
+    {
+        id = ViewBag.Data[0].seller_id;
+    }
+}
+@using PagedList
+@using PagedList.Mvc
+
+<hr />
+<div class="row">
+    <table class="table table-responsive table-bordered">
+        <thead>
+            <tr>
+                <th>商品名称</th>
+                <th>商品图片</th>
+                <th>动态内容</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var m in ViewBag.Data)
+            {
+                <tr>
+                    <td>@m.Goods.name</td>
+                    <td>
+                        <img src="/@m.Goods.img" style="max-height:110px;">
+                    </td>
+                    <td>@m.content</td>
+                    <td>@m.created_at</td>
+                    <td>
+                        <a href="/MessageComment/Index/@m.id" class="button button-small button-primary">评论管理</a>
+                        <a href="/SellerMessage/Delete/@m.id" class="button button-small button-caution">删除</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    @Html.PagedListPager((IPagedList)ViewBag.Data, page => Url.Action("Index", new {
+        page,
+        id
+    }))
+</div>

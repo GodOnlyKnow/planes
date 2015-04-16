@@ -1,0 +1,41 @@
+﻿@section styles{
+    <style>
+        .row-hover {
+            border:1px solid #ffffff;
+        }
+        .row-hover:hover{
+            border:1px solid #0026ff;
+        }
+    </style>
+}
+@{
+    ViewBag.Title = "动态管理";
+}
+@using PagedList;
+@using PagedList.Mvc;
+<hr />
+<div class="row">
+    <a href="/Message/Create/@ViewData["Id"]" class="button button-primary">发布新动态</a>
+</div>
+<hr />
+@foreach (var m in ViewBag.Data)
+{ 
+    <div class="row row-hover">
+        <div class="thumbnail col-md-offset-1 col-md-2">
+            <img src="/@m.img" />
+        </div>
+        <div class="col-md-4">
+            <h3>@m.Goods.name</h3>
+            <p>@m.content</p>
+        </div>
+        <div class="col-md-2">
+            <br />
+            <p><a href="/Message/Details/@m.id" class="button button-small button-primary">编辑</a></p>
+            <p><a href="/Message/Delete/@m.id" class="button button-small button-caution">删除</a></p>
+        </div>
+    </div>
+}
+    <div class="row">
+        @Html.PagedListPager((IPagedList)ViewBag.Data, page => Url.Action("Index", new { page = page,id = ViewData["Id"] }))
+    </div>
+

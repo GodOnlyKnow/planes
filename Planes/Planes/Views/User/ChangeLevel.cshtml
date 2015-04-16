@@ -1,0 +1,32 @@
+﻿@model Planes.Models.UserViewModel
+@{
+    ViewBag.Title = "修改用户等级";
+    ViewBag.SiderBar = 2;
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-1">
+        <a class="button button-large button-primary button-border button-circle" href="/User"><i class="fa fa-reply"></i></a>
+    </div>
+    <div class="col-md-10">
+        @using (Html.BeginForm("ChangeLevel", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.HiddenFor(m => m.Id)
+            <div class="col-sm-offset-2 col-sm-10">
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">会员等级</label>
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(m => m.LevelId, ViewData["Levels"] as List<SelectListItem>, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-3">
+                    <button class="btn btn-primary btn-block" type="submit">确认</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

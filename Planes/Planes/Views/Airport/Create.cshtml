@@ -1,0 +1,199 @@
+﻿@model Planes.Models.AirportCreateModel
+@{
+    ViewBag.Title = "添加";
+    ViewBag.SiderBar = 1;
+}
+<hr />
+<div class="row">
+    <div class="col-md-1">
+        <a class="button button-large button-primary button-border button-circle" href="/Airport"><i class="fa fa-reply"></i></a>
+    </div>
+    <div class="col-md-10">
+            @using (Html.BeginForm("Create", "Airport", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+            {
+                <div class="col-sm-offset-2 col-sm-10">
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserName, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                    </div>
+                    <div class="col-sm-2">
+                        <a class="button button-rounded button-small button-primary" onclick="create()"><i id="icons" class="fa fa-plus"></i></a>
+                    </div>
+                </div>
+                <div id="detail" class="hidden">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    </div>
+                </div>
+                @*<div class="form-group">
+                    @Html.LabelFor(m => m.Address, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                    </div>
+                </div>*@
+<div class="form-group">
+    @Html.LabelFor(m => m.GroupId, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-6">
+        <select name="GroupId" id="GroupId" class="form-control">
+            <option value="3">航空公司</option>
+            <option value="4">国内驾校</option>
+            <option value="5">国外驾校</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-6">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.IsLock, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-6">
+                        @Html.DropDownListFor(m => m.IsLock, ViewData["IsLock"] as List<SelectListItem>, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.WX, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.WX, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Phone, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">展示图片</label>
+                    <div class="col-sm-6">
+                        <input type="file" name="Img" id="Img" data-preview-file-type="image" class="form-control" />
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">介绍图片</label>
+                        <div class="col-md-6">
+                            <input type="file" name="Imgs" id="Imgs" multiple="multiple" data-preview-file-type="image" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Desc, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-6">
+                            @Html.TextAreaFor(m => m.Desc, new { @class = "form-control",rows = "6" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AreaId, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-6">
+                        @*@Html.DropDownListFor(m => m.AreaId, ViewData["Areas"] as List<SelectListItem>, new { @class = "form-control" })*@
+                        <input name="AreaId" id="AreaId" type="text" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Lng, new { @class = "col-sm-offset-1 col-sm-1 control-label" })
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(m => m.Lng, new { @class = "form-control" })
+                    </div>
+                    @Html.LabelFor(m => m.Lat, new { @class = "col-sm-1 control-label" })
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(m => m.Lat, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group" style="height:300px;">
+                    @Html.Partial("_BaiDuMap")
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AirportAddress, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.AirportAddress, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-4">
+                        <button class="btn btn-primary btn-block" type="submit">确定</button>
+                    </div>
+                </div>
+            }
+    </div>
+</div>
+@section scripts{
+<script>
+
+    $(function () {
+        $("#AreaId").magicSuggest({
+            placeholder: '关键字模糊查询',
+            data: '/Airport/GetAreas',
+            valueField: 'Id',
+            displayField: 'Name',
+            maxSelection:1,
+            renderer: function (data) {
+                return data.Name + '(' + data.Address + ')';
+            },
+            resultAsString:true
+        });
+    });
+
+    $("#Imgs").fileinput({
+        allowedFileTypes: ['image'],
+        allowedFileExtensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'],
+        showUpload: false
+    });
+
+    $("#Img").fileinput({
+        allowedFileTypes: ['image'],
+        allowedFileExtensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'],
+        showUpload: false
+    });
+
+    var txt = document.getElementById("AirportAddress");
+    var lng = $("#Lng").val();
+    var lat = $("#Lat").val();
+    var map = new BMap.Map("bdmap");
+    var pt = new BMap.Point(parseFloat(lng), parseFloat(lat));
+    map.centerAndZoom(pt, 12);
+    var marker = new BMap.Marker(pt);
+    map.addOverlay(marker);
+    marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+    map.enableScrollWheelZoom(true);
+    map.addEventListener("click", function (e) {
+        var pt = e.point;
+        map.clearOverlays();
+        var marker = new BMap.Marker(pt);
+        map.addOverlay(marker);
+        marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+        $("#Lng").val(pt.lng);
+        $("#Lat").val(pt.lat);
+        var geoc = new BMap.Geocoder();
+        geoc.getLocation(pt, function (rs) {
+            $(txt).val(rs.address);
+        });
+    });
+    $("#Lng,#Lat").focusout(function () {
+        var lng = $("#Lng").val();
+        var lat = $("#Lat").val();
+        if (lng == undefined || lng.length < 1 || lat == undefined || lat.length < 1) return;
+        var pt = new BMap.Point(parseFloat(lng), parseFloat(lat));
+        map.centerAndZoom(pt, 12);
+        map.clearOverlays();
+        var marker = new BMap.Marker(pt);
+        map.addOverlay(marker);
+        marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+        var geoc = new BMap.Geocoder();
+        geoc.getLocation(pt, function (rs) {
+            $(txt).val(rs.address);
+        });
+    })
+    function create() {
+        $("#detail").toggleClass("hidden");
+        $("#icons").toggleClass("fa-plus fa-minus");
+    }
+</script>
+}
+

@@ -1,0 +1,8 @@
+﻿<li @if (ViewBag.SiderBar == null) { @: class="active"
+        }><a href="/Home/Index"><i class="fa fa-dashboard fa-fw"></i> 首页</a></li>
+<li @if (ViewBag.SiderBar == 1) { @: class="active"
+        }><a href="/Airport/Index"><i class="fa fa-plane fa-fw"></i> 飞机管理</a></li>
+<li @if (ViewBag.SiderBar == 2) { @:class="active"
+    }><a href="/Message/Index"><i class="fa fa-user fa-fw"></i> 动态管理</a></li>
+<li @if (ViewBag.SiderBar == 3) { @: class="active"
+        }><a href="/Order/Index"><i class="fa fa-list fa-fw"></i> 订单管理</a></li>

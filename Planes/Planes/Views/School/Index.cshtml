@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "驾校管理";
+    ViewBag.SiderBar = 7;
+}
+@using PagedList;
+@using PagedList.Mvc;
+
+<hr />
+<div class="row">
+    <div class="col-md-2">
+        @Html.ActionLink("新增", "Create", "Airport", null, new { @class = "btn btn-block btn-success" })
+    </div>
+</div>
+<hr />
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>名称</th>
+                <th>型号</th>
+                <th>类型</th>
+                <th>渠道</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 0;
+            }
+            @foreach (var m in ViewBag.Data)
+            {
+                <tr>
+                    <td>
+                        @{
+                i++;
+                @i
+                        }
+                    </td>
+                    <td>@m.name</td>
+                    <td>@m.model</td>
+                    <td>@m.col1</td>
+                    <td>@m.GoodTypes.name</td>
+                    <td class="text-center">
+                        @if (m.is_lock == 1)
+                        {
+                            <a class="button button-small button-primary" href="/SalePlane/ChangeStatus?id=@m.good_id">已启用</a>
+                        }
+                        else
+                        {
+                            <a class="button button-small" href="/SalePlane/ChangeStatus?id=@m.good_id">已禁用</a>
+                        }
+                    </td>
+                    <td>
+                        <a class="button button-small button-highlight" href="/SalePlane/Detail/@m.good_id">查看</a>
+                        <a class="button button-small button-caution" href="/SalePlane/Delete/@m.good_id">删除</a>
+                        <a class="button button-small button-royal" href="/GoodComment/Index/@m.good_id">评论管理</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.PagedListPager((IPagedList)ViewBag.Data, page => Url.Action("IndexOfPlane", new {  page }))
+</div>
+

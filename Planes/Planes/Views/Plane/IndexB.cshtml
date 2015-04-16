@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "特价包机";
+    ViewBag.SiderBar = 1;
+}
+
+
+@using PagedList;
+@using PagedList.Mvc;
+
+<hr />
+<div class="row">
+    <div class="col-md-2">
+        @Html.ActionLink("新增", "CreateB", new { airportId = ViewBag.airportId }, new { @class = "btn btn-block btn-success" })
+    </div>
+</div>
+<hr />
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>航线</th>
+                <th>人数</th>
+                <th>型号</th>
+                <th>时间</th>
+                <th>价格</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 0;
+            }
+            @foreach (var m in ViewBag.Data)
+            {
+                <tr>
+                    <td>
+                        @{
+                i++;
+                @i
+                        }
+                    </td>
+                    <td>@m.col1 - @m.col2</td>
+                    <td>@m.col4</td>
+                    <td>@m.model</td>
+                    <td>@m.col3</td>
+                    <td>@m.price</td>
+                    <td>
+                        <a class="button button-small button-highlight" href="/Plane/DetailB/@m.good_id">查看</a>
+                        <a class="button button-small button-caution" href="/Plane/DeleteB/@m.good_id">删除</a>
+                        <a class="button button-small button-royal" href="/GoodComment/Index/@m.good_id">评论管理</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.PagedListPager((IPagedList)ViewBag.Data, page => Url.Action("IndexB", new { page, ViewBag.airportId }))
+</div>
+
+

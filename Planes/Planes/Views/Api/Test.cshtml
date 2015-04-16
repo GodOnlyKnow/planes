@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Test";
+    Layout = "";
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+    asdas
+</body>
+</html>
+<script>
+    $(function () {
+        $.ajax({
+            url: "/Api/GetAreas",
+            type: "POST",
+            data: { lat: 114.358912, lng: 36.134482, page: 1, pageSize: 5 },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    });
+</script>

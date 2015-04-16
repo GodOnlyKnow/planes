@@ -1,0 +1,82 @@
+﻿@model Planes.Models.Users
+@{
+    ViewBag.Title = "用户详情";
+    ViewBag.SiderBar = 2;
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-1">
+        <a class="button button-large button-primary button-border button-circle" href="/User"><i class="fa fa-reply"></i></a>
+    </div>
+    <div class="col-md-10">
+        @using (Html.BeginForm("Details", "Area", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.HiddenFor(m => m.user_id)
+            <div class="col-sm-offset-2 col-sm-10">
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">用户名</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.username, new { @class = "form-control",disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">手机号</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.phone, new { @class = "form-control",disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">真实姓名</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.true_name, new { @class = "form-control",disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">身份证</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.id_card, new { @class = "form-control",disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">工作单位</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.work_unit, new { @class = "form-control",disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">性别</label>
+                <div class="col-sm-6">
+                     <input type="text" class = "form-control" disabled @if (Model.gender == true){
+                                                                        @:value="男"
+                                                                        }else{
+                                                                        @:value="女"
+                                                                        } />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">地址</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.address, new { @class = "form-control",disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">注册时间</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.created_at, new { @class = "form-control",disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">头像</label>
+                <div class="col-sm-6">
+                   <div class="thumbnail">
+                       <img src="@Model.head_img" />
+                   </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

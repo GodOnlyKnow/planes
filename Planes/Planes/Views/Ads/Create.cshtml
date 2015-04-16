@@ -1,0 +1,69 @@
+﻿@model Planes.Models.CreateAdsModel
+@{
+    ViewBag.Title = "新增广告";
+    ViewBag.SiderBar = 5;
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-1">
+        <a class="button button-large button-primary button-border button-circle" href="/Ads/Index"><i class="fa fa-reply"></i></a>
+    </div>
+    <div class="col-md-10">
+        @using (Html.BeginForm("Create", "Ads", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            <div class="col-sm-offset-2 col-sm-10">
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Link, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.Link, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Desc, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6">
+                    @Html.TextAreaFor(m => m.Desc, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Position, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6">
+                    <select class="form-control" name="Position" id="Position">
+                        <option>动态</option>
+                        <option>学飞行</option>
+                        <option>航空装备</option>
+                        <option>其他</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                    <label class="col-sm-2 control-label">展示图片</label>
+                    <div class="col-sm-6">
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 100%; height: 150px;">
+                            </div>
+                            <div class="chageImg">
+                                <span class="btn btn-default btn-file"><span class="fileinput-new">选择图像</span><span class="fileinput-exists">更换</span><input type="file" id="Img" name="Img"></span>
+                                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">移除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-2">
+                    <button class="btn btn-primary btn-block" type="submit">确定</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

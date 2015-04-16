@@ -1,0 +1,18 @@
+﻿@{
+    string s = "NULL";
+    if (ViewData["Col1"] != null) {s = ViewData["Col1"].ToString();}
+}
+<select name="Col1" id="Col1" class="form-control">
+    <option @if (s == "直升机"){
+        @:selected       
+     } >直升机</option>
+    <option @if(s == "固定翼"){
+        @:selected       
+     }>固定翼</option>
+    <option @if(s == "公务机"){
+        @:selected       
+     }>公务机</option>
+    <option @if(s == "旋翼机"){
+        @:selected       
+     }>旋翼机</option>
+</select>

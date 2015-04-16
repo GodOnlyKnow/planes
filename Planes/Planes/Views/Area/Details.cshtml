@@ -1,0 +1,121 @@
+﻿@model Planes.Models.AreaEditModel
+@{
+    ViewBag.Title = "机场详情";
+    ViewBag.SiderBar = 0;
+}
+<hr />
+<div class="row">
+    <div class="col-md-1">
+        <a class="button button-large button-primary button-border button-circle" href="/Area"><i class="fa fa-reply"></i></a>
+    </div>
+    <div class="col-md-10">
+        @using (Html.BeginForm("Details", "Area", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            @Html.HiddenFor(m => m.Id);
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control",disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Lng, new { @class = "col-sm-offset-1 col-sm-1 control-label" })
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(m => m.Lng, new { @class = "form-control", disabled = "true" })
+                </div>
+                @Html.LabelFor(m => m.Lat, new { @class = "col-sm-1 control-label" })
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(m => m.Lat, new { @class = "form-control", disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12" style="height:300px;">
+                    @Html.Partial("_BaiDuMap")
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Address, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6 col-lg-6">
+                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control",disabled = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-4" id="MOD">
+                    <a class="btn btn-warning btn-block" onclick="mod()">修改</a>
+                </div>
+                <div class="col-md-offset-2 col-md-4 hide" id="MODOK">
+                    <button class="btn btn-primary" type="submit">确定</button>
+                    <a class="btn btn-default" onclick="cel()">取消</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section scripts{
+    <script>
+    var name = $("#Name").val();
+    var txt = document.getElementById("Address");
+    var address = $(txt).val();
+    var lng = $("#Lng").val();
+    var lat = $("#Lat").val();
+    var map = new BMap.Map("bdmap");
+    var pt = new BMap.Point(parseFloat(lng), parseFloat(lat));
+    map.centerAndZoom(pt, 12);
+    var marker = new BMap.Marker(pt);
+    map.addOverlay(marker);
+    marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+    map.enableScrollWheelZoom(true);
+    $("#Lng,#Lat").focusout(function () {
+        var lng = $("#Lng").val();
+        var lat = $("#Lat").val();
+        if (lng == undefined || lng.length < 1 || lat == undefined || lat.length < 1) return;
+        var pt = new BMap.Point(parseFloat(lng),parseFloat(lat));
+        map.centerAndZoom(pt, 12);
+        map.clearOverlays();
+        var marker = new BMap.Marker(pt);
+        map.addOverlay(marker);
+        marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+        var geoc = new BMap.Geocoder();
+        geoc.getLocation(pt, function (rs) {
+            $(txt).val(rs.address);
+        });
+    })
+    
+    function mod() {
+        $(".form-control").removeAttr("disabled");
+        map.addEventListener("click", function (e) {
+            var pt = e.point;
+            map.clearOverlays();
+            var marker = new BMap.Marker(pt);
+            map.addOverlay(marker);
+            marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+            $("#Lng").val(pt.lng);
+            $("#Lat").val(pt.lat);
+            var geoc = new BMap.Geocoder();
+            geoc.getLocation(pt, function (rs) {
+                $(txt).val(rs.address);
+            });
+        });
+        $("#MOD").addClass("hide");
+        $("#MODOK").removeClass("hide");
+    }
+
+    function cel() {
+        $(".form-control").attr("disabled","true");
+        map.removeEventListener("click");
+        $("#MOD").removeClass("hide");
+        $("#MODOK").addClass("hide");
+        $("#Name").val(name);
+        $("#Lng").val(lng);
+        $("#Lat").val(lat);
+        $("#Address").val(address);
+        map.clearOverlays();
+        map.centerAndZoom(pt, 12);
+        var marker = new BMap.Marker(pt);
+        map.addOverlay(marker);
+        marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+    }
+    </script>
+}
+

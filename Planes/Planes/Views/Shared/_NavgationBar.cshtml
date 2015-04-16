@@ -1,0 +1,31 @@
+﻿
+    <li @if(ViewBag.SiderBar == null){
+        @:class="active"    
+    }><a href="/Home/Index"><i class="fa fa-dashboard fa-fw"></i> 首页</a></li>
+    <li @if(ViewBag.SiderBar == 0){
+            @:class="active"
+    }><a href="/Area/Index"><i class="fa fa-plane fa-fw"></i> 机场管理</a></li>
+    <li @if(ViewBag.SiderBar == 1){
+            @:class="active"
+    }><a href="/Airport/Index"><i class="fa fa-rocket fa-fw"></i> 机构管理</a></li>
+    <li @if(ViewBag.SiderBar == 2){
+        @:class="active"    
+    }><a href="/User/Index"><i class="fa fa-user fa-fw"></i> 会员管理</a></li>
+    <li @if(ViewBag.SiderBar == 3){
+        @:class="active"    
+    }><a href="/Order/Index"><i class="fa fa-list fa-fw"></i> 订单管理</a></li>
+    <li @if(ViewBag.SiderBar == 4){
+        @:class="active"    
+    }><a href="/Good/Index"><i class="fa fa-database fa-fw"></i> 航空装备</a></li>
+    <li @if (ViewBag.SiderBar == 5) { 
+        @: class="active"
+    }><a href="/Ads/Index"><i class="fa fa-adn fa-fw"></i> 广告管理</a></li>
+    <li @if (ViewBag.SiderBar == 6) { 
+        @: class="active"
+    }><a href="/SalePlane/Index"><i class="fa fa-plane fa-fw"></i> 出售飞机</a></li>
+    @*<li @if (ViewBag.SiderBar == 7) { 
+        @: class="active"
+    }><a href="/School/Index"><i class="fa fa-plane fa-fw"></i> 驾校管理</a></li>*@
+
+
+

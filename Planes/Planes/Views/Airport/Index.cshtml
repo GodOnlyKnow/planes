@@ -1,0 +1,90 @@
+﻿@model Planes.Models.AirportSearchModel
+
+@{
+    ViewBag.Title = "机构管理";
+    ViewBag.SiderBar = 1;
+}
+@using PagedList.Mvc;
+@using PagedList;
+<hr />
+    @if (Planes.Models.LUser.LoginUser.group_id == 1)
+    { 
+        using (Html.BeginForm("Index", "Airport", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-1"><span>公司名称</span></div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" name="Name" />
+                </div>
+                <div class="col-md-1"><span>公司账户</span></div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" name="UserName" />
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-primary btn-block" type="submit">查找</button>
+                </div>
+                <div class="col-md-1">
+                    @Html.ActionLink("新增", "Create", null, new { @class = "btn btn-block btn-success" })
+                </div>
+            </div>
+        }
+        <hr />
+    }
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>公司名称</th>
+                <th>公司账户</th>
+                <th>联系电话</th>
+                <th>类别</th>
+                <th>机场</th>
+                @if (Planes.Models.LUser.LoginUser.group_id == 1)
+                { 
+                    <th>状态</th>
+                }
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 0;
+            }
+            @foreach (var m in ViewBag.Data)
+            {
+                <tr>
+                    <td>@{
+                        i++;
+                        @i
+                    }</td>
+                    <td>@m.Sellers.name</td>
+                    <td>@m.Sellers.username</td>
+                    <td>@m.Sellers.phone</td>
+                    <td>@m.Sellers.SellerGroup.name</td>
+                    <td>@m.Areas.name</td>
+                    @if (Planes.Models.LUser.LoginUser.group_id == 1)
+                    { 
+                        <td class="text-center">
+                            @if (m.Sellers.is_lock == 1)
+                            {
+                                <a class="button button-small button-primary" href="/Airport/ChangeStatus?id=@m.seller_id">已启用</a>
+                            }
+                            else
+                            {
+                                <a class="button button-small" href="/Airport/ChangeStatus?id=@m.seller_id">已禁用</a>
+                            }
+                        </td>
+                    }
+                    <td>
+                        <a class="button button-small button-primary" href="/Good/IndexOfPlane?airportId=@m.airport_id">飞机管理</a>
+                        <a class="button button-small button-highlight" href="/Airport/Details?id=@m.airport_id">查看商家</a>
+                        <a class="button button-small button-royal" href="/SellerMessage/Index/@m.seller_id">动态管理</a>
+                        <a class="button button-small button-caution" href="/Airport/Delete?id=@m.airport_id">删除</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.PagedListPager((IPagedList)ViewBag.Data, page => Url.Action("Index", new { page }))
+</div>

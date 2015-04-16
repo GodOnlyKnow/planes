@@ -1,0 +1,101 @@
+﻿@model Planes.Models.PlaneEditBModel
+@{
+    ViewBag.Title = "";
+}
+@section styles{
+    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+}
+<hr />
+@using (Html.BeginForm("DetailB", "Plane", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(m => m.Id)
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">名称</label>
+        <div class="col-md-6">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">航线</label>
+        <div class="col-md-2">
+            @Html.TextBoxFor(m => m.Col1, new { @class = "form-control", placeholder = "出发地" })
+        </div>
+        <div class="col-md-2">
+            @Html.TextBoxFor(m => m.Col2, new { @class = "form-control", placeholder = "目的地" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">型号</label>
+        <div class="col-md-6">
+            @Html.TextBoxFor(m => m.Modelss, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">人数</label>
+        <div class="col-md-6">
+            @Html.TextBoxFor(m => m.Col4, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">出发时间</label>
+        <div class="col-md-6">
+            @Html.TextBoxFor(m => m.Col3, new { @class = "form-control",@readonly = "true" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Price, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+        </div>
+        <div class="col-md-1">
+            @Html.TextBoxFor(m => m.Unit, new { @class = "form-control", placeholder = "货币单位" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">详情介绍</label>
+        <div class="col-md-6">
+            @Html.TextAreaFor(m => m.Desc, new { @class = "form-control", rows = "6" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">图片</label>
+        <div class="col-md-6">
+            <input type="file" name="Imgs" id="Imgs" multiple="multiple" data-preview-file-type="image" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-md-2">
+            <button type="submit" class="btn btn-primary btn-block">确定</button>
+        </div>
+    </div>
+}
+@section scripts{
+    <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <script>
+        $("#Col3").datetimepicker({
+            format: "yyyy-mm-dd hh:ii",
+            autoclose: true,
+            todayBtn: true,
+            pickerPosition: "bottom-right"
+        });
+
+        $("#Imgs").fileinput({
+            allowedFileTypes: ['image'],
+            allowedFileExtensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'],
+            initialPreview: [
+                @foreach (var s in Model.ImgUrls)
+                {
+                    @:"<img src='/@s' class='file-preview-image' >",
+                }
+            ],
+            overwriteInitial: true,
+            showUpload: false
+        });
+    </script>
+}

@@ -1,0 +1,55 @@
+﻿@model Planes.Models.Goods
+@{
+    ViewBag.Title = "添加";
+    ViewBag.SiderBar = 1;
+}
+
+<hr />
+@using (Html.BeginForm("CreateA", "Plane", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    <input type="hidden" name="id" value="@ViewBag.airportId">
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">选择飞机</label>
+        <div class="col-md-6">
+            @Html.TextBoxFor(m => m.parent, new { @class = "form-control", disabled = "true" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2"></label>
+        <div class="col-md-6">
+            @Html.TextBoxFor(m => m.parent, new { @class = "form-control", disabled = "true" })
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script>
+        $(function () {
+            $.post("/Message/GetPlanes",{ sellerId: @Model.seller_id },function(ds){
+                $("#parent").prop("disabled",false);
+                $("#parent").magicSuggest({
+                    placeholder: '',
+                    data: ds,
+                    valueField: 'Id',
+                    displayField: 'Name',
+                    maxSelection: 1,
+                    renderer: function (data) {
+                        return '<div style="padding: 5px; overflow:hidden;">' +
+                                    '<div style="float: left;"><img style="width:60px;" src="/' + data.Img + '" /></div>' +
+                                    '<div style="float: left; margin-left: 5px">' +
+                                        '<div style="font-weight: bold; color: #333; font-size: 10px; line-height: 11px">' + data.Name + '</div>' +
+                                        '<div style="color: #999; font-size: 9px">' + data.Address + '</div>' +
+                                    '</div>' +
+                                '</div><div style="clear:both;"></div>';
+                    },
+                    resultAsString: true
+                });
+            });
+        });
+    </script>
+}
