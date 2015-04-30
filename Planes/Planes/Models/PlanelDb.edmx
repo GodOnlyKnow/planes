@@ -35,6 +35,8 @@
           <Property Name="desci" Type="varchar" MaxLength="255" />
           <Property Name="created_at" Type="datetime" StoreGeneratedPattern="Computed" />
           <Property Name="position" Type="varchar" MaxLength="255" />
+          <Property Name="type" Type="int" />
+          <Property Name="good_id" Type="int" />
         </EntityType>
         <EntityType Name="Airports">
           <Key>
@@ -46,6 +48,36 @@
           <Property Name="created_at" Type="datetime" />
           <Property Name="location" Type="varchar" MaxLength="255" />
           <Property Name="address" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Alipay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="notify_time" Type="datetime" Nullable="false" />
+          <Property Name="notify_type" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="sign_type" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="notify_id" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="sign" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="out_trade_no" Type="varchar" MaxLength="255" />
+          <Property Name="subject" Type="varchar" MaxLength="255" />
+          <Property Name="payment_type" Type="varchar" MaxLength="255" />
+          <Property Name="trade_no" Type="varchar" MaxLength="255" />
+          <Property Name="trade_status" Type="varchar" MaxLength="255" />
+          <Property Name="seller_id" Type="varchar" MaxLength="255" />
+          <Property Name="seller_email" Type="varchar" MaxLength="255" />
+          <Property Name="buyer_id" Type="varchar" MaxLength="255" />
+          <Property Name="buyer_email" Type="varchar" MaxLength="255" />
+          <Property Name="total_fee" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="gmt_create" Type="datetime" />
+          <Property Name="gmt_payment" Type="datetime" />
+          <Property Name="is_total_fee_adjust" Type="varchar" MaxLength="255" />
+          <Property Name="use_coupon" Type="varchar" MaxLength="255" />
+          <Property Name="discount" Type="varchar" MaxLength="255" />
+          <Property Name="refund_status" Type="varchar" MaxLength="255" />
+          <Property Name="gmt_refund" Type="datetime" />
         </EntityType>
         <EntityType Name="Areas">
           <Key>
@@ -59,6 +91,7 @@
           <Property Name="name" Type="varchar" MaxLength="255" />
           <Property Name="created_at" Type="datetime" />
           <Property Name="location" Type="varchar" MaxLength="255" />
+          <Property Name="img" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
@@ -299,6 +332,9 @@
           <Property Name="col9" Type="varchar" MaxLength="255" />
           <Property Name="type_id" Type="int" />
           <Property Name="status" Type="smallint" />
+          <Property Name="count" Type="int" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="payType" Type="int" />
         </EntityType>
         <EntityType Name="OrderType">
           <Key>
@@ -317,6 +353,15 @@
           <Property Name="place_id" Type="int" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="45" />
           <Property Name="parent" Type="int" />
+        </EntityType>
+        <EntityType Name="PushMessage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="body" Type="text" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="title" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="SellerGroup">
           <Key>
@@ -383,6 +428,15 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="UserCollect">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="good_id" Type="int" Nullable="false" />
+          <Property Name="created_at" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="UserCommentImages">
           <Key>
             <PropertyRef Name="id" />
@@ -433,6 +487,7 @@
           <Property Name="is_lock" Type="smallint" />
           <Property Name="created_at" Type="datetime" />
           <Property Name="rand_id" Type="varchar" MaxLength="255" />
+          <Property Name="reg_id" Type="varchar" MaxLength="255" />
         </EntityType>
         <Association Name="FK_AIRPORTS_SELLERSAR_AREAS">
           <End Role="Areas" Type="Self.Areas" Multiplicity="1" />
@@ -807,6 +862,7 @@
           <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ads" EntityType="Self.Ads" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Airports" EntityType="Self.Airports" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Alipay" EntityType="Self.Alipay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Areas" EntityType="Self.Areas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -829,11 +885,13 @@
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderType" EntityType="Self.OrderType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Places" EntityType="Self.Places" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PushMessage" EntityType="Self.PushMessage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SellerGroup" EntityType="Self.SellerGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SellerImage" EntityType="Self.SellerImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SellerMessage" EntityType="Self.SellerMessage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sellers" EntityType="Self.Sellers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserCollect" EntityType="Self.UserCollect" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserCommentImages" EntityType="Self.UserCommentImages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserCommentReplys" EntityType="Self.UserCommentReplys" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserComments" EntityType="Self.UserComments" Schema="dbo" store:Type="Tables" />
@@ -1010,6 +1068,7 @@
           <NavigationProperty Name="Airports" Relationship="Self.FK_AIRPORTS_SELLERSAR_AREAS" FromRole="Areas" ToRole="Airports" />
           <NavigationProperty Name="Goods" Relationship="Self.FK_GOODS_AREAGOODS_AREAS" FromRole="Areas" ToRole="Goods" />
           <Property Name="location" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="img" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
@@ -1156,6 +1215,9 @@
           <Property Name="type_id" Type="Int32" />
           <NavigationProperty Name="OrderType" Relationship="DBModel.FK_Orders_OrderType" FromRole="Orders" ToRole="OrderType" />
           <NavigationProperty Name="Goods" Relationship="DBModel.GoodsOrders" FromRole="Orders" ToRole="Goods" />
+          <Property Name="count" Type="Int32" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="payType" Type="Int32" />
         </EntityType>
         <EntityType Name="Places">
           <Key>
@@ -1231,6 +1293,7 @@
           <NavigationProperty Name="UserComments" Relationship="DBModel.FK_UserComments_Users" FromRole="Users" ToRole="UserComments" />
           <NavigationProperty Name="UserCommentReplys" Relationship="DBModel.FK_UserCommentReplys_Users" FromRole="Users" ToRole="UserCommentReplys" />
           <NavigationProperty Name="UserCommentReplys1" Relationship="DBModel.FK_UserCommentReplys_Users1" FromRole="Users" ToRole="UserCommentReplys" />
+          <Property Name="reg_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_LOGINLOG_ADMINLOGS_ADMINS">
           <End Role="Admins" Type="Self.Admins" Multiplicity="0..1" />
@@ -1531,6 +1594,9 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="UserCommentReplys" EntitySet="UserCommentReplys" />
           </AssociationSet>
+          <EntitySet Name="PushMessage" EntityType="DBModel.PushMessage" />
+          <EntitySet Name="UserCollect" EntityType="DBModel.UserCollect" />
+          <EntitySet Name="Alipay" EntityType="DBModel.Alipay" />
         </EntityContainer>
         <EntityType Name="SellerGroup">
           <Key>
@@ -1641,6 +1707,8 @@
           <Property Name="desci" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="created_at" Type="DateTime" annotation:StoreGeneratedPattern="Computed" Precision="3" />
           <Property Name="position" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="Int32" />
+          <Property Name="good_id" Type="Int32" />
         </EntityType>
         <EntityType Name="GoodCommentReplys">
           <Key>
@@ -2028,6 +2096,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PushMessage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="body" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="UserCollect">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="good_id" Type="Int32" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Alipay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="notify_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="notify_type" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="sign_type" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="notify_id" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="sign" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="out_trade_no" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="subject" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="payment_type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="trade_no" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="trade_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="seller_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="seller_email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="buyer_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="buyer_email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="total_fee" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="gmt_create" Type="DateTime" Precision="3" />
+          <Property Name="gmt_payment" Type="DateTime" Precision="3" />
+          <Property Name="is_total_fee_adjust" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="use_coupon" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="discount" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="refund_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="gmt_refund" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2069,6 +2185,7 @@
           <EntitySetMapping Name="Areas">
             <EntityTypeMapping TypeName="DBModel.Areas">
               <MappingFragment StoreEntitySet="Areas">
+                <ScalarProperty Name="img" ColumnName="img" />
                 <ScalarProperty Name="location" ColumnName="location" />
                 <ScalarProperty Name="area_id" ColumnName="area_id" />
                 <ScalarProperty Name="province" ColumnName="province" />
@@ -2195,6 +2312,9 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="DBModel.Orders">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="payType" ColumnName="payType" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="count" ColumnName="count" />
                 <ScalarProperty Name="type_id" ColumnName="type_id" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
@@ -2261,6 +2381,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="DBModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="reg_id" ColumnName="reg_id" />
                 <ScalarProperty Name="rand_id" ColumnName="rand_id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="level_id" ColumnName="level_id" />
@@ -2325,6 +2446,8 @@
           <EntitySetMapping Name="Ads">
             <EntityTypeMapping TypeName="DBModel.Ads">
               <MappingFragment StoreEntitySet="Ads">
+                <ScalarProperty Name="good_id" ColumnName="good_id" />
+                <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="position" ColumnName="position" />
                 <ScalarProperty Name="created_at" ColumnName="created_at" />
                 <ScalarProperty Name="desci" ColumnName="desci" />
@@ -2490,6 +2613,57 @@
                 <ScalarProperty Name="good" ColumnName="good" />
                 <ScalarProperty Name="body" ColumnName="body" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PushMessage">
+            <EntityTypeMapping TypeName="DBModel.PushMessage">
+              <MappingFragment StoreEntitySet="PushMessage">
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="body" ColumnName="body" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCollect">
+            <EntityTypeMapping TypeName="DBModel.UserCollect">
+              <MappingFragment StoreEntitySet="UserCollect">
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="good_id" ColumnName="good_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Alipay">
+            <EntityTypeMapping TypeName="DBModel.Alipay">
+              <MappingFragment StoreEntitySet="Alipay">
+                <ScalarProperty Name="gmt_refund" ColumnName="gmt_refund" />
+                <ScalarProperty Name="refund_status" ColumnName="refund_status" />
+                <ScalarProperty Name="discount" ColumnName="discount" />
+                <ScalarProperty Name="use_coupon" ColumnName="use_coupon" />
+                <ScalarProperty Name="is_total_fee_adjust" ColumnName="is_total_fee_adjust" />
+                <ScalarProperty Name="gmt_payment" ColumnName="gmt_payment" />
+                <ScalarProperty Name="gmt_create" ColumnName="gmt_create" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="total_fee" ColumnName="total_fee" />
+                <ScalarProperty Name="buyer_email" ColumnName="buyer_email" />
+                <ScalarProperty Name="buyer_id" ColumnName="buyer_id" />
+                <ScalarProperty Name="seller_email" ColumnName="seller_email" />
+                <ScalarProperty Name="seller_id" ColumnName="seller_id" />
+                <ScalarProperty Name="trade_status" ColumnName="trade_status" />
+                <ScalarProperty Name="trade_no" ColumnName="trade_no" />
+                <ScalarProperty Name="payment_type" ColumnName="payment_type" />
+                <ScalarProperty Name="subject" ColumnName="subject" />
+                <ScalarProperty Name="out_trade_no" ColumnName="out_trade_no" />
+                <ScalarProperty Name="sign" ColumnName="sign" />
+                <ScalarProperty Name="notify_id" ColumnName="notify_id" />
+                <ScalarProperty Name="sign_type" ColumnName="sign_type" />
+                <ScalarProperty Name="notify_type" ColumnName="notify_type" />
+                <ScalarProperty Name="notify_time" ColumnName="notify_time" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

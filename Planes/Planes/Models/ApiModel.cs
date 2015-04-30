@@ -13,6 +13,7 @@ namespace Planes.Models
         public string phone { get; set; }
         public string password { get; set; }
         public string headImg { get; set; }
+        public string regId { get; set; }
     }
 
     // 用户信息
@@ -22,7 +23,7 @@ namespace Planes.Models
         public string userName { get; set; }
         public string trueName { get; set; }
         public string idCard { get; set; }
-        public bool gender { get; set; }
+        public int gender { get; set; }
         public string address { get; set; }
         public string workUnit { get; set; }
     }
@@ -65,6 +66,8 @@ namespace Planes.Models
         public string status { get; set; }
         public string name { get; set; }
         public string img { get; set; }
+        public int payType { get; set; }
+        public int type { get; set; }
         
     }
 
@@ -163,6 +166,8 @@ namespace Planes.Models
         public int id { get; set; }
         public string userName { get; set; }
         public string body { get; set; }
+        public int time { get; set; }
+        public string img { get; set; }
     }
 
     // 动态评论点赞
@@ -199,6 +204,8 @@ namespace Planes.Models
         public string name { get; set; }
         public string img { get; set; }
         public string address { get; set; }
+        public decimal priceMax { get; set; }
+        public decimal priceMin { get; set; }
         public List<ApiSellerModel> sellers { get; set; }
     }
             // 航空公司
@@ -212,6 +219,9 @@ namespace Planes.Models
         public string name { get; set; }
         public string img { get; set; }
         public string address { get; set; }
+        public decimal priceMax { get; set; }
+        public decimal priceMin { get; set; }
+        public string desc { get; set; }
         public List<ApiPlaneAAAModel> planes { get; set; }
     }
 
@@ -221,8 +231,9 @@ namespace Planes.Models
         public string idString { get; set; }
         public string name { get; set; }
         public string img { get; set; }
+        public string address { get; set; }
+        public string desc { get; set; }
         public List<ApiPlaneAAAModel> planes { get; set; }
-        
     }
     // 飞机
         // 预定航程
@@ -265,6 +276,7 @@ namespace Planes.Models
         public int collection { get; set; }
         [Display(Name = "访问量")]
         public int visited { get; set; }
+        public int shared { get; set; }
     }
     // 获取 特价包机
     public class ApiGetPlaneBBBRequestModel
@@ -319,6 +331,9 @@ namespace Planes.Models
         public string desc { get; set; }
         public string img { get; set; }
         public string position { get; set; }
+        public int type { get; set; }
+        // type 0 表示 外链网址,1 表示 买飞机，2 表示 航空装备
+        public object good { get; set; }
     }
 
     // 学飞行
@@ -337,6 +352,9 @@ namespace Planes.Models
         public string name { get; set; }
         public string img { get; set; }
         public string desc { get; set; }
+        public string address { get; set; }
+        public decimal priceMax { get; set; }
+        public decimal priceMin { get; set; }
         public List<ApiSchoolPlaneModel> planes { get; set; }
     }
 
@@ -443,9 +461,11 @@ namespace Planes.Models
         public int id { get; set; }
         public string idString { get; set; }
         public string userName { get; set; }
+        public string userRandId { get; set; }
         public string userImg { get; set; }
         public string createdAt { get; set; }
         public string body { get; set; }
+        public int good { get; set; }
         public string[] imgs { get; set; }
         public List<ApiUserCommentReplyModel> replys { get; set; }
     }
@@ -462,9 +482,12 @@ namespace Planes.Models
         public string idString { get; set; }
         public string userFrom { get; set; }
         public string  userFromRandId { get; set; }
+        public string userFromImg { get; set; }
         public string userTo { get; set; }
         public string  userToRandId { get; set; }
+        public string userToImg { get; set; }
         public string body { get; set; }
+        public int time { get; set; }
         public string createdAt { get; set; }
     }
 
@@ -478,8 +501,6 @@ namespace Planes.Models
         // 学姐学长在这里
     public class ApiAddWTFCommentRequest : ApiAddUserCommentRequest
     {
-        public string name { get; set; }
-        public byte gender { get; set; }
     }
 
     // 互动吧 点赞
@@ -490,7 +511,7 @@ namespace Planes.Models
     }
 
     // 新增 回复
-    public class ApiAddUserCommentReplyRequest
+    public class  ApiAddUserCommentReplyRequest
     {
         public int id { get; set; } // 上级id
         public string userFromRandId { get; set; }
@@ -504,7 +525,12 @@ namespace Planes.Models
     {
         public string phone { get; set; }
         public int goodId { get; set; }
+        // 总价
         public decimal price { get; set; }
+        // 数量
+        public int num { get; set; }
+        // 单价
+        public decimal amount { get; set; }
         public int type { get; set; }
         // type 取值说明 ，表明 订单 类型
         //  1    学飞行
@@ -512,8 +538,24 @@ namespace Planes.Models
         //  3    租飞机
         //  4    航空装备
         public string desc { get; set; }
+
+        // type = 3 如果是 预定航程 则填写下面字段
+        public string goTime { get; set; }
+        public string backTime { get; set; }
+        public string fromAdd { get; set; }
+        public string toAdd { get; set; }
+        public string stayTime { get; set; }
+        public string flyTime { get; set; }
+        public string count { get; set; }
     }
 
+    // 更改订单支付类型
+    public class ApiChangeOrderPayTypeRequest
+    {
+        public string orderId { get; set; }
+        public int payType { get; set; }
+        // 0 线上 ，1 线下
+    }
 
     // 更新订单状态
     public class ApiChangeOrderStatusRequest
@@ -525,4 +567,157 @@ namespace Planes.Models
         //   1   已支付
         //   2   订单取消
     }
+
+    // 商品评论 点赞
+    public class ApiAddCommentCountRequest
+    {
+        public int id { get; set; }
+        public int good { get; set; }
+    }
+
+    // 获取用户评论
+    public class ApiGetUserCommentListRequest
+    {
+        public string phone { get; set; }
+        public int page { get; set; }
+        public int pageSize { get; set; }
+    }
+
+    public class ApiGetUserCommentList
+    {
+        // type 说明
+        //  1   动态
+        //  2   商品
+        //  3   互动吧
+        //  4   学姐学长
+        public int type { get; set; }
+        public string body { get; set; }
+        public string img { get; set; }
+        public string username { get; set; }
+        public string[] imgs { get; set; }
+        public int time { get; set; }
+        public int commentId { get; set; }
+    }
+
+    // 获取 用户评论 详情
+    public class ApiGetUserCommentDetailRequest
+    {
+        public int type { get; set; }
+        public int commentId { get; set; }
+    }
+
+    public class ApiGetUserCommentDetail
+    {
+        public int id { get; set; }
+        public string idString { get; set; }
+        public string userFrom { get; set; }
+        public string userFromRandId { get; set; }
+        public string userFromImg { get; set; }
+        public string userTo { get; set; }
+        public string userToRandId { get; set; }
+        public string userToImg { get; set; }
+        public string body { get; set; }
+        public int time { get; set; }
+        public string createdAt { get; set; }
+    }
+
+    // 获取 消息中心 
+    public class ApiGetPushMessagesRequest
+    {
+        public int page { get; set; }
+        public int pageSize { get; set; }
+    }
+
+    public class ApiGetPushMessages
+    {
+        public string title { get; set; }
+        public string body { get; set; }
+        public string createdAt { get; set; }
+    }
+
+
+    // 租飞机 搜索
+    public class ApiSearchPlaneARequest
+    {
+        // type 取值
+        //  1   机场
+        //  2   航空公司
+        public int type { get; set; }
+        public string key { get; set; }
+    }
+
+    // 驾校 搜索
+    public class ApiSearchPlaneBRequest
+    {
+        // type 取值
+        //  1   国内
+        //  2   国外
+        public int type { get; set; }
+        public string key { get; set; }
+    }
+
+    // 地图模式
+    public class ApiMapPlaneRequest
+    {
+        public double lat { get; set; }
+        public double lng { get; set; }
+    }
+
+    public class ApiMapPlane
+    {
+        public string lat { get; set; }
+        public string lng { get; set; }
+        public double dis { get; set; }
+        public string name { get; set; }
+        public decimal priceMax { get; set; }
+        public decimal priceMin { get; set; }
+        public string address { get; set; }
+        public string type { get; set; }
+        // type 三位数 0 表示没有，1表示有
+        //   个位 固定翼
+        //   十位 直升机
+        //   百位 旋翼机
+    }
+
+    public class ApiMapPlaneA : ApiMapPlane
+    {
+        public ApiGetSellersModel seller { get; set; }
+    }
+
+    public class ApiMapPlaneB : ApiMapPlane
+    {
+        public ApiGetSchoolModel school { get; set; }
+    }
+
+
+    // 用户收藏
+        // 新增
+    public class ApiAddUserCollectRequest
+    {
+        public int goodId { get; set; }
+        public string phone { get; set; }
+    }
+        // 删除
+    public class ApiDelUserCollectRequest
+    {
+        public int id { get; set; }
+    }
+
+        // 获取
+    public class ApiGetUserCollectRequest
+    {
+        public string phone { get; set; }
+        public int page { get; set; }
+        public int pageSize { get; set; }
+    }
+
+    public class ApiGetUserCollectA : ApiSalePlaneModel
+    {
+        public int delId { get; set; }
+    }
+    public class ApiGetUserCollectB : ApiGetSaleGoodsModel
+    {
+        public int delId { get; set; }
+    }
+
 }

@@ -23,7 +23,7 @@ namespace Planes.Models
         [Display(Name = "人数")]
         public string Col4 { get; set; }
         [Required]
-        [Display(Name = "出发时间")]
+        [Display(Name = "时间")]
         public string  Col3 { get; set; }
         [Required]
         [Display(Name = "价格")]
@@ -37,6 +37,9 @@ namespace Planes.Models
         public string Desc { get; set; }
         [Display(Name = "名称")]
         public string Name { get; set; }
+
+        [Display(Name = "返程时间")]
+        public string Col6 { get; set; }
     }
 
     public class PlaneCreateCModel : PlaneCreateBModel
@@ -44,8 +47,6 @@ namespace Planes.Models
         [Required]
         [Display(Name = "航程")]
         public string Col5 { get; set; }
-        [Display(Name = "返程时间")]
-        public string Col6 { get; set; }
     }
 
     public class PlaneEditBModel
@@ -65,7 +66,7 @@ namespace Planes.Models
         [Display(Name = "人数")]
         public string Col4 { get; set; }
         [Required]
-        [Display(Name = "出发时间")]
+        [Display(Name = "时间")]
         public string Col3 { get; set; }
         [Required]
         [Display(Name = "价格")]
@@ -79,6 +80,8 @@ namespace Planes.Models
         [Display(Name = "名称")]
         public string Name { get; set; }
         public string[] ImgUrls { get; set; }
+        [Display(Name = "返程时间")]
+        public string Col6 { get; set; }
     }
 
     public class PlaneEditCModel : PlaneEditBModel
@@ -86,7 +89,5 @@ namespace Planes.Models
         [Required]
         [Display(Name = "航程")]
         public string Col5 { get; set; }
-        [Display(Name = "返程时间")]
-        public string Col6 { get; set; }
     }
 }

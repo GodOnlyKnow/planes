@@ -62,6 +62,6 @@
             }
         </tbody>
     </table>
-    @Html.PagedListPager((IPagedList)ViewBag.Data, page => Url.Action("IndexOfPlane", new { ViewBag.airportId, page }))
+    @Html.PagedListPager((IPagedList)ViewBag.Data, page => Url.Action("Index", new { ViewBag.airportId, page }))
 </div>
 

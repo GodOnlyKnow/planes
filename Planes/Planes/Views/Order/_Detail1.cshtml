@@ -12,6 +12,12 @@
     </div>
 </div>
 <div class="form-group">
+    <label class="col-sm-2 control-label">商品价格</label>
+    <div class="col-sm-6">
+        @Html.TextBoxFor(m => m.Goods.price, new { @class = "form-control", disabled = "true" })
+    </div>
+</div>
+<div class="form-group">
     <label class="col-sm-2 control-label">公司名称</label>
     <div class="col-sm-6">
         @Html.TextBoxFor(m => m.Goods.Sellers.name, new { @class = "form-control", disabled = "true" })

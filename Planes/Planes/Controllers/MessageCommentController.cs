@@ -44,6 +44,8 @@ namespace Planes.Controllers
         {
             var tmp = db.MessageComments.Where(x => x.id == id).First();
             var goodId = tmp.message_id;
+            db.MessageCommentImages.RemoveRange(tmp.MessageCommentImages);
+            db.MessageCommentReplys.RemoveRange(tmp.MessageCommentReplys);
             db.MessageComments.Remove(tmp);
             db.SaveChanges();
             return RedirectToAction("Index", new { id = goodId });

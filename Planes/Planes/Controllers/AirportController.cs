@@ -72,13 +72,6 @@ namespace Planes.Controllers
             Airports airport = null;
             if (ModelState.IsValid)
             {
-                string fileName = "default.png";
-                if (model.Img != null)
-                {
-                    var file = model.Img;
-                    fileName = MD5Tool.Encrypt(DateTime.Now.ToString("y-M-d H-m-s")) + Path.GetExtension(file.FileName);
-                    file.SaveAs(Path.Combine(HttpContext.Server.MapPath("~/Images/Sellers"), fileName));
-                }
                 airport = db.Airports.Where(x => x.airport_id == model.Id).First();
                 var seller = db.Sellers.Where(x => x.seller_id == airport.seller_id).First();
                 seller.address = model.Address;
@@ -101,7 +94,9 @@ namespace Planes.Controllers
                 seller.is_lock = model.IsLock;
                 seller.wx = model.WX;
                 seller.phone = model.Phone;
-                seller.img = "Images/Sellers/" + fileName;
+                if (model.Img != null)
+                    seller.img = FileTool.Save(model.Img,"Images/Sellers");
+                model.ImgUrl = seller.img;
                 seller.group_id = model.GroupId;
                 seller.desci = model.Desc;
                 airport.area_id = model.AreaId;
@@ -109,7 +104,6 @@ namespace Planes.Controllers
                 airport.address = model.AirportAddress;
                 db.SaveChanges();
                 ModelState.AddModelError("","修改成功");
-
             }
             if (airport == null) DropDownListData();
             else DropDownListData(airport.area_id);
@@ -185,13 +179,7 @@ namespace Planes.Controllers
                     if (sql.Count() < 1)
                     {
                         if (!ModelState.IsValid) return View();
-                        string fileName = "default.png";
-                        if (model.Img != null)
-                        {
-                            var file = model.Img;
-                            fileName = MD5Tool.Encrypt(DateTime.Now.ToString("y-M-d H-m-s")) + Path.GetExtension(file.FileName);
-                            file.SaveAs(Path.Combine(HttpContext.Server.MapPath("~/Images/Sellers"), fileName));
-                        }
+                        
                         seller = db.Sellers.Add(new Sellers()
                             {
                                 name = model.Name,
@@ -203,7 +191,7 @@ namespace Planes.Controllers
                                 phone = model.Phone,
                                 collected = 0,
                                 desci = model.Desc,
-                                img = "Images/Sellers/" + fileName,
+                                img = FileTool.Save(model.Img,"Images/Sellers"),
                                 plants = 0,
                                 qq = model.WX,
                                 saled = 0,
@@ -292,8 +280,6 @@ namespace Planes.Controllers
         // GET: Seller/Delete/5
         public ActionResult Delete(int id)
         {
-            try
-            {
                 var airport = db.Airports.Where(t => t.airport_id == id).First();
                 var goods = db.Goods.Where(t => t.area_id == airport.area_id && t.seller_id == airport.seller_id);
                 if (goods.Count() > 0)
@@ -307,16 +293,14 @@ namespace Planes.Controllers
                     db.Goods.RemoveRange(goods);
                 }
                 var seller = airport.Sellers;
+                db.Goods.RemoveRange(seller.Goods);
+                db.SellerMessage.RemoveRange(seller.SellerMessage);
                 db.SellerImage.RemoveRange(seller.SellerImage);
-                db.Sellers.Remove(seller);
                 db.Airports.Remove(airport);
+                db.Sellers.Remove(seller);
                 db.SaveChanges();
                 return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Index");
-            }
+            
         }
 
         // POST: Seller/Delete/5

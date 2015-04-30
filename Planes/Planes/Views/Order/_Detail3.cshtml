@@ -35,19 +35,66 @@
         @Html.TextBoxFor(m => m.col2, new { @class = "form-control", disabled = "true" })
     </div>
 </div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">飞机航线</label>
-    <div class="col-sm-6">
-        @Html.TextBoxFor(m => m.col3, new { @class = "form-control", disabled = "true" })
+@if (Model.Goods.type_id == 8)
+{
+    <div class="form-group">
+        <label class="col-sm-2 control-label">商品价格</label>
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => m.Goods.price, new { @class = "form-control", disabled = "true" })
+        </div>
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => m.Goods.unit, new { @class = "form-control", disabled = "true" })
+        </div>
     </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">人数</label>
-    <div class="col-sm-6">
-        @Html.TextBoxFor(m => m.col4, new { @class = "form-control", disabled = "true" })
+    <div class="form-group">
+        <label class="col-sm-2 control-label">出发地点</label>
+        <div class="col-sm-6">
+            @Html.TextBoxFor(m => m.col3, new { @class = "form-control", disabled = "true" })
+        </div>
     </div>
-</div>
-
+    <div class="form-group">
+        <label class="col-sm-2 control-label">前往地点</label>
+        <div class="col-sm-6">
+            @Html.TextBoxFor(m => m.col6, new { @class = "form-control", disabled = "true" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">停留时间</label>
+        <div class="col-sm-6">
+            @Html.TextBoxFor(m => m.col7, new { @class = "form-control", disabled = "true" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">飞行时间</label>
+        <div class="col-sm-6">
+            @Html.TextBoxFor(m => m.col8, new { @class = "form-control", disabled = "true" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">人数</label>
+        <div class="col-sm-6">
+            @Html.TextBoxFor(m => m.col4, new { @class = "form-control", disabled = "true" })
+        </div>
+    </div>
+}
+else
+{
+    <div class="form-group">
+        <label class="col-sm-2 control-label">每小时飞行价格</label>
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => m.Goods.col7, new { @class = "form-control", disabled = "true" })
+        </div>
+        <div class="col-sm-1">
+            @Html.TextBoxFor(m => m.Goods.unit, new { @class = "form-control", disabled = "true" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">飞机航线</label>
+        <div class="col-sm-6">
+            @Html.TextBoxFor(m => m.col3, new { @class = "form-control", disabled = "true" })
+        </div>
+    </div>
+}
 <div class="form-group">
     <label class="col-sm-2 control-label">备注</label>
     <div class="col-sm-6">

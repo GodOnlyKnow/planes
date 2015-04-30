@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">订单金额</label>
+            <label class="col-sm-2 control-label">支付金额</label>
             <div class="col-sm-6">
                 @Html.TextBoxFor(m => m.amount, new { @class = "form-control", disabled = "true" })
             </div>
@@ -35,8 +35,10 @@
             <div class="col-sm-6">
                 <input type="text" class="form-control" disabled @if(Model.status == 1){
                                                                             @:value="已支付"
-                                                                        }else{
+                                                                        }else if (Model.status == 0){
                                                                             @:value="未支付"
+                                                                        } else {
+                                                                            @:value="订单取消"
                                                                         } />
             </div>
         </div>
@@ -44,6 +46,19 @@
             <label class="col-sm-2 control-label">业务种类</label>
             <div class="col-sm-6">
                 @Html.TextBoxFor(m => m.OrderType.name, new { @class = "form-control", disabled = "true" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">支付方式</label>
+            <div class="col-sm-6">
+                @if (Model.payType == 0)
+                {
+                    <input type="text" class="form-control" disabled name="payType" id="payType" value="支付宝支付">
+                }
+                else
+                {
+                    <input type="text" class="form-control" disabled name="payType" id="payType" value="线下支付">
+                }
             </div>
         </div>
         @Html.Partial("_Detail" + Model.type_id,Model)

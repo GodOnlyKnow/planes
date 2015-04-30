@@ -43,10 +43,7 @@ namespace Planes.Controllers
             var good = db.Goods.Where(x => x.good_id == model.GoodId).First();
             if (model.Img != null)
             {
-                var file = model.Img;
-                fileName = MD5Tool.Encrypt(DateTime.Now.ToString("y-M-d H-m-s")) + Path.GetExtension(file.FileName);
-                file.SaveAs(Path.Combine(HttpContext.Server.MapPath("~/Images/SellerMessage"),fileName));
-                fileName = "Images/SellerMessage/" + fileName;
+                fileName = FileTool.Save(model.Img,"Images/SellerMessage");
             }
             else
             {
@@ -90,10 +87,7 @@ namespace Planes.Controllers
             var mes = db.SellerMessage.Where(x => x.id == model.Id).First();
             if (model.Img != null)
             {
-                var file = model.Img;
-                fileName = MD5Tool.Encrypt(DateTime.Now.ToString("y-M-d H-m-s")) + Path.GetExtension(file.FileName);
-                file.SaveAs(Path.Combine(HttpContext.Server.MapPath("~/Images/SellerMessage"), fileName));
-                fileName = "Images/SellerMessage/" + fileName;
+                fileName = FileTool.Save(model.Img,"Images/SellerMessage");
             }
             else
             {

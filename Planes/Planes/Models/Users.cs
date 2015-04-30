@@ -42,6 +42,7 @@ namespace Planes.Models
         public Nullable<short> is_lock { get; set; }
         public Nullable<System.DateTime> created_at { get; set; }
         public string rand_id { get; set; }
+        public string reg_id { get; set; }
     
         public virtual Levels Levels { get; set; }
         public virtual ICollection<Orders> Orders { get; set; }

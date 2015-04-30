@@ -34,8 +34,12 @@ namespace Planes.Tools
             string fileName = "default.png";
             if (file != null)
             {
-                Random rand = new Random();
-                fileName = MD5Tool.Encrypt(DateTime.Now.ToString("y-M-d H-m-s.fff") + rand.Next()) + Path.GetExtension(file.FileName);
+                Random rand = new Random(int.MaxValue - 100);
+                do
+                {
+                    fileName = MD5Tool.Encrypt(DateTime.Now.ToLocalTime().ToString() + rand.Next()) + Path.GetExtension(file.FileName);
+                } while (File.Exists(Path.Combine(HttpContext.Current.Server.MapPath("~/" + path), fileName)));
+                
                 file.SaveAs(Path.Combine(HttpContext.Current.Server.MapPath("~/" + path), fileName));
             }
             return path + "/" + fileName;

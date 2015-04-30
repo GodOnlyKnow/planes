@@ -1,0 +1,43 @@
+﻿@model Planes.Models.PushMessageCreate
+@{
+    ViewBag.Title = "推送消息";
+    ViewBag.SiderBar = 9;
+}
+
+@using (Html.BeginForm("Create", "PushMessage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title, new { @class = "col-sm-2 control-label" })
+        <div class="col-md-6">
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Body, new { @class = "col-sm-2 control-label" })
+        <div class="col-md-6">
+            @Html.TextBoxFor(m => m.Body, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Type, new { @class = "col-sm-2 control-label" })
+        <div class="col-md-6">
+            <select name="Type" id="Type" class="form-control">
+                <option value="0">推送所有平台</option>
+                <option value="1">推送给安卓</option>
+                <option value="2">推送给苹果</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-md-2">
+            <button type="submit" class="btn btn-primary btn-block">确定</button>
+        </div>
+    </div>
+}
+

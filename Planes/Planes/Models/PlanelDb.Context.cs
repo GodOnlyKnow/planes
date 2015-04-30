@@ -59,5 +59,8 @@ namespace Planes.Models
         public virtual DbSet<UserCommentImages> UserCommentImages { get; set; }
         public virtual DbSet<UserCommentReplys> UserCommentReplys { get; set; }
         public virtual DbSet<UserComments> UserComments { get; set; }
+        public virtual DbSet<PushMessage> PushMessage { get; set; }
+        public virtual DbSet<UserCollect> UserCollect { get; set; }
+        public virtual DbSet<Alipay> Alipay { get; set; }
     }
 }

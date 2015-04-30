@@ -61,7 +61,7 @@
             @Html.TextBoxFor(m => m.Col3, new { @class = "form-control", @readonly = "true" })
         </div>
         <div id="backtime" class="hide">
-            <label class="control-label col-md-2">返程时间</label>
+            <label class="control-label col-md-1">返程时间</label>
             <div class="col-md-3">
                 @Html.TextBoxFor(m => m.Col6, new { @class = "form-control", @readonly = "true" })
             </div>
@@ -98,6 +98,7 @@
 @section scripts{
     <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
     <script>
+
         $("#Col5").change(function () {
             if ($(this).val() == "单程")
                 $("#backtime").removeClass().addClass("hide");
@@ -105,7 +106,7 @@
                 $("#backtime").removeClass();
         });
 
-        $("#Col3").datetimepicker({
+        $("#Col3,#Col6").datetimepicker({
             format: "yyyy-mm-dd hh:ii",
             autoclose: true,
             todayBtn: true,

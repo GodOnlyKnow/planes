@@ -21,5 +21,7 @@ namespace Planes.Models
         public string desci { get; set; }
         public Nullable<System.DateTime> created_at { get; set; }
         public string position { get; set; }
+        public Nullable<int> type { get; set; }
+        public Nullable<int> good_id { get; set; }
     }
 }

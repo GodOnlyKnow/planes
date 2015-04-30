@@ -1,0 +1,55 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<Planes.Models.UserComments>
+
+@{
+    ViewBag.Title = "用户动态";
+    ViewBag.SiderBar = 111;
+    int type = 0;
+    if (Model.Count > 0)
+    {
+        type = Model[0].type;
+    }
+}
+<hr />
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    @for (var i = 0; i < Model.Count; i++)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading-@Model[i].id">
+                <h4 class="panel-title">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-@Model[i].id" aria-expanded="true" aria-controls="collapse-@Model[i].id">
+                                
+                                @Model[i].Users.username
+                                &nbsp;
+                                @Model[i].created_at
+                            </a>
+                        </div>
+                        <div class="col-md-1">
+                            <a href="/UserComment/Delete/@Model[i].id" class="button button-small button-caution">删除</a>
+                        </div>
+                    </div>
+                </h4>
+            </div>
+            <div id="collapse-@Model[i].id" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-@Model[i].id">
+                <div class="panel-body">
+                    @Model[i].body
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="row">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+    type
+}))
+</div>
+
+
+

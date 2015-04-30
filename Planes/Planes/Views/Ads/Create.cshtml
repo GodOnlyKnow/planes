@@ -22,9 +22,24 @@
                 </div>
             </div>
             <div class="form-group">
+                @Html.LabelFor(m => m.Type, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6">
+                    <select class="form-control" name="Type" id="Type">
+                        <option value="0">外链</option>
+                        <option value="1">内链</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group type0">
                 @Html.LabelFor(m => m.Link, new { @class = "col-sm-2 control-label" })
                 <div class="col-sm-6">
                     @Html.TextBoxFor(m => m.Link, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group type1" style="display:none;">
+                @Html.LabelFor(m => m.GoodId, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.GoodId, new { @class = "form-control",disabled = "true" })
                 </div>
             </div>
             <div class="form-group">
@@ -45,18 +60,11 @@
                 </div>
             </div>
             <div class="form-group">
-                    <label class="col-sm-2 control-label">展示图片</label>
-                    <div class="col-sm-6">
-                        <div class="fileinput fileinput-new" data-provides="fileinput">
-                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 100%; height: 150px;">
-                            </div>
-                            <div class="chageImg">
-                                <span class="btn btn-default btn-file"><span class="fileinput-new">选择图像</span><span class="fileinput-exists">更换</span><input type="file" id="Img" name="Img"></span>
-                                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">移除</a>
-                            </div>
-                        </div>
-                    </div>
+                <label class="col-sm-2 control-label">展示图片</label>
+                <div class="col-sm-6">
+                    <input type="file" name="Img" id="Img" data-preview-file-type="image" class="form-control" />
                 </div>
+            </div>
             
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-2">
@@ -67,3 +75,44 @@
     </div>
 </div>
 
+@section scripts {
+    <script>
+        $(function () {
+            $("#Img").fileinput({
+                allowedFileTypes: ['image'],
+                allowedFileExtensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'],
+                showUpload: false
+            });
+
+            $("#Type").change(function () {
+                if ($(this).val() == 0) {
+                    $(".type0").css("display","block");
+                    $(".type1").css("display","none");
+                } else {
+                    $(".type1").css("display", "block");
+                    $(".type0").css("display", "none");
+                }
+            });
+
+            $.post("/Ads/GetGoods", {}, function (ds) {
+                $("#GoodId").prop("disabled",false);
+                $("#GoodId").magicSuggest({
+                    placeholder: '关键字模糊查询',
+                    data: ds,
+                    valueField: 'Id',
+                    displayField: 'Name',
+                    maxSelection: 1,
+                    renderer: function (data) {
+                        return '<div style="padding: 5px; overflow:hidden;">' +
+                                        '<div style="float: left;"><img style="width:60px;" src="/' + data.Img + '" /></div>' +
+                                        '<div style="float: left; margin-left: 5px">' +
+                                            '<div style="font-weight: bold; color: #333; font-size: 10px; line-height: 11px">' + data.Name + '</div>' +
+                                        '</div>' +
+                                    '</div><div style="clear:both;"></div>';
+                    },
+                    resultAsString: true
+                });
+            });
+        });
+    </script>
+}

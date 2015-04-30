@@ -15,9 +15,9 @@
 <script>
     $(function () {
         $.ajax({
-            url: "/Api/GetAreas",
+            url: "/Api/ChangeOrderPayType",
             type: "POST",
-            data: { lat: 114.358912, lng: 36.134482, page: 1, pageSize: 5 },
+            data: { orderId:154260123123123123431882210,payType:1 },
             dataType: "json",
             success: function (data) {
                 console.log(data);

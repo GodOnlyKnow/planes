@@ -64,7 +64,7 @@ namespace Planes.Controllers
                 { 
                     good_id = good.good_id,
                     created_at = DateTime.Now,
-                    img = FileTool.Save(f,"Images/Goods/")
+                    img = FileTool.Save(f,"Images/Goods")
                 });
             }
             db.SaveChanges();
@@ -351,6 +351,7 @@ namespace Planes.Controllers
             good.price = model.Price;
             good.unit = model.Unit;
             model.ImgUrl = good.img;
+            good.type_id = model.TypeId;
             db.SaveChanges();
             var imgs = db.GoodImages.Where(x => x.good_id == good.good_id).Select(x => x.img);
             model.ImgUrls = imgs.ToArray();
@@ -366,6 +367,12 @@ namespace Planes.Controllers
                 var imgs = db.GoodImages.Where(x => x.good_id == good.good_id);
                 if (imgs.Count() > 0)
                     db.GoodImages.RemoveRange(imgs);
+                foreach (var g in db.GoodComments.Where(x => x.good_id == good.good_id))
+                {
+                    db.GoodCommentImages.RemoveRange(g.GoodCommentImages);
+                    db.GoodCommentReplys.RemoveRange(g.GoodCommentReplys);
+                    db.GoodComments.Remove(g);
+                }
                 db.Goods.Remove(good);
                 db.SaveChanges();
                 if (LUser.LoginUser.group_id == 1)

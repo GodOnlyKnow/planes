@@ -81,6 +81,9 @@
         <AssociationConnector Association="DBModel.FK_UserComments_Users" />
         <AssociationConnector Association="DBModel.FK_UserCommentReplys_Users" />
         <AssociationConnector Association="DBModel.FK_UserCommentReplys_Users1" />
+        <EntityTypeShape EntityType="DBModel.PushMessage" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DBModel.UserCollect" Width="1.5" PointX="15.375" PointY="3.75" />
+        <EntityTypeShape EntityType="DBModel.Alipay" Width="1.5" PointX="5.375" PointY="15.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

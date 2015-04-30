@@ -23,6 +23,7 @@
                 <th>序号</th>
                 <th>图片</th>
                 <th>名称</th>
+                <th>类型</th>
                 <th>链接</th>
                 <th>位置</th>
                 <th>操作</th>
@@ -45,6 +46,16 @@
                         <img src="/@m.img" style="max-height:80px;" >
                     </td>
                     <td>@m.name</td>
+                    <td>
+                        @if (m.type == 0)
+                        {
+                            @:外链
+                        }
+                        else
+                        {
+                            @:内链
+                        }
+                    </td>
                     <td>@m.link</td>
                     <td>@m.position</td>
                     <td>

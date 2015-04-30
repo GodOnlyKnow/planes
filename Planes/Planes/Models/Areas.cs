@@ -28,6 +28,7 @@ namespace Planes.Models
         public string name { get; set; }
         public Nullable<System.DateTime> created_at { get; set; }
         public string location { get; set; }
+        public string img { get; set; }
     
         public virtual ICollection<Airports> Airports { get; set; }
         public virtual ICollection<Goods> Goods { get; set; }

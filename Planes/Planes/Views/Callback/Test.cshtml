@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Test";
+    Layout = "";
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+    asdas
+</body>
+</html>
+<script>
+    $(function () {
+        $.ajax({
+            url: "/Callback/Alipay",
+            type: "POST",
+            data: { "id": 0, "notify_time": "2015-04-23 22:29:50", "notify_type": "trade_status_sync", "sign_type": "RSA", "notify_id": "972c01f67ef5c5a932e65a8a9b47fa3452", "sign": "WSX00DptG6Qfd/gfo6crtnXJd9qeFV/eIe5HZf4bcgS3EFGfpveawlWyaVdS1b1YHwMAymyMeOpvZXCBRLw8I47zNmfFYVbKnaAW8Vf25VPCPncrJp8dzKYy3otsY18kO99SzernebkBShvOudpVzkic6OIlkeH+VsBXVHq7y2c=", "out_trade_no": "0423222854-1038", "subject": "测试的商品", "payment_type": "1", "trade_no": "2015042300001000550050307869", "trade_status": "TRADE_FINISHED", "seller_id": "2088002197126523", "seller_email": "globalwings.cn@gmail.com", "buyer_id": "2088502246557552", "buyer_email": "s771002022@sohu.com", "total_fee": 0.01, "quantity": 1, "price": 0.01, "gmt_create": "2015-04-23 22:29:50", "gmt_payment": "2015-04-23 22:29:50", "is_total_fee_adjust": "N", "use_coupon": "N", "discount": "0.00", "refund_status": null, "gmt_refund": null },
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    });
+</script>

@@ -28,6 +28,21 @@ namespace Planes.Controllers
         }
 
         [HttpPost]
+        public JsonResult GetGoods()
+        {
+            var list = new List<GetGoodsModel>();
+            foreach (var g in db.Goods.Where(x => x.type_id == 9 || x.GoodTypes.parent == 10))
+            {
+                list.Add(new GetGoodsModel() { 
+                    Id = g.good_id,
+                    Name = g.name,
+                    Img = g.img
+                });
+            }
+            return Json(list);
+        }
+
+        [HttpPost]
         public ActionResult Create(CreateAdsModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -38,7 +53,9 @@ namespace Planes.Controllers
                 link = model.Link,
                 img = FileTool.Save(model.Img,"Images/Ads"),
                 created_at = DateTime.Now,
-                position = model.Position
+                position = model.Position,
+                type = model.Type,
+                good_id = model.GoodId
             });
             db.SaveChanges();
             ModelState.AddModelError("","添加成功");
@@ -54,7 +71,9 @@ namespace Planes.Controllers
                 Link = ad.link,
                 Desc = ad.desci,
                 Id = ad.id,
-                Position = ad.position
+                Position = ad.position,
+                Type = ad.type.Value,
+                GoodId = ad.good_id ?? 0
             });
         }
 
@@ -68,6 +87,8 @@ namespace Planes.Controllers
             ad.desci = model.Desc;
             ad.link = model.Link;
             ad.position = model.Position;
+            ad.type = model.Type;
+            ad.good_id = model.GoodId;
             if (model.Img != null)
                 ad.img = FileTool.Save(model.Img,"Images/Ads");
             model.ImgUrl = ad.img;

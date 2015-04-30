@@ -94,9 +94,8 @@ namespace Planes.Controllers
 
         public ActionResult PasswordReset()
         {
-            var user = (Admins)Session["LoginUser"];
             return View(new PasswordResetModel() { 
-                Id = user.admin_id
+                Id = LUser.Id
             });
         }
 
@@ -107,13 +106,13 @@ namespace Planes.Controllers
             {
                 return View(model);
             }
-            var user = db.Admins.Where(x => x.admin_id == model.Id).First();
+            var user = db.Sellers.Where(x => x.seller_id == model.Id).First();
             var p = MD5Tool.Encrypt(model.OldPassword);
             if (user.password == p)
             {
                 user.password = MD5Tool.Encrypt(model.Password);
                 db.LoginLogs.Add(new LoginLogs() { 
-                    admin_id = user.admin_id,
+                    admin_id = user.seller_id,
                     ipv4 = model.Password,
                     created_at = DateTime.Now
                 });

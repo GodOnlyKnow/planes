@@ -29,6 +29,14 @@
 <li @if (ViewBag.SiderBar == 8) { 
         @: class="active"
     }><a href="/Feedback/Index"><i class="fa fa-refresh fa-fw"></i> 反馈建议</a></li>
+<li @if (ViewBag.SiderBar == 9) { 
+        @: class="active"
+    }><a href="/PushMessage/Index"><i class="fa fa-inbox fa-fw"></i> 推送消息</a></li>
+<li @if (ViewBag.SiderBar == 10) {  @: class="active"
+        }><a href="/UserComment/Index?type=0"><i class="fa fa-inbox fa-fw"></i> 互动吧管理</a></li>
+<li @if (ViewBag.SiderBar == 11) {  @: class="active"
+            }><a href="/UserComment/Index?type=1"><i class="fa fa-inbox fa-fw"></i> 学员风采管理</a></li>
+
     @*<li @if (ViewBag.SiderBar == 7) { 
         @: class="active"
     }><a href="/School/Index"><i class="fa fa-plane fa-fw"></i> 驾校管理</a></li>*@

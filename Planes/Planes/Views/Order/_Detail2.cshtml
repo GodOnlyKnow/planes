@@ -24,6 +24,18 @@
     </div>
 </div>
 <div class="form-group">
+    <label class="col-sm-2 control-label">飞机价格</label>
+    <div class="col-sm-6">
+        @Html.TextBoxFor(m => m.Goods.market_price, new { @class = "form-control", disabled = "true" })
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">购买数量</label>
+    <div class="col-sm-6">
+        @Html.TextBoxFor(m => m.count, new { @class = "form-control", disabled = "true" })
+    </div>
+</div>
+<div class="form-group">
     <label class="col-sm-2 control-label">备注</label>
     <div class="col-sm-6">
         @Html.TextBoxFor(m => m.col1, new { @class = "form-control", disabled = "true" })

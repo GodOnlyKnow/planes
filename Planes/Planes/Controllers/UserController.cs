@@ -79,7 +79,20 @@ namespace Planes.Controllers
 
         public ActionResult Delete(int id)
         {
-            db.Users.Remove(db.Users.Where(x => x.user_id == id).First());
+            var user = db.Users.Where(x => x.user_id == id).First();
+            
+            db.GoodCommentReplys.RemoveRange(user.GoodCommentReplys);
+            db.GoodComments.RemoveRange(user.GoodComments);
+            db.Orders.RemoveRange(user.Orders);
+            db.UserCommentReplys.RemoveRange(user.UserCommentReplys);
+            db.UserCommentReplys.RemoveRange(user.UserCommentReplys1);
+            db.UserComments.RemoveRange(user.UserComments);
+            db.MessageCommentReplys.RemoveRange(user.MessageCommentReplys);
+            db.MessageComments.RemoveRange(user.MessageComments);
+            db.Entrys.RemoveRange(user.Entrys);
+            db.Feedback.RemoveRange(user.Feedback);
+
+            db.Users.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

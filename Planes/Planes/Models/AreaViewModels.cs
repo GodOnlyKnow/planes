@@ -41,11 +41,14 @@ namespace Planes.Models
         [Required]
         [Display(Name = "详细地址")]
         public string Address { get; set; }
+        [Display(Name = "机场图片")]
+        public HttpPostedFileBase Img { get; set; }
     }
 
     public class AreaEditModel : AreaCreateModel
     {
         [Required]
         public int Id { get; set; }
+        public string ImgUrl { get; set; }
     }
 }

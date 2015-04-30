@@ -31,6 +31,9 @@ namespace Planes.Models
         public string col9 { get; set; }
         public Nullable<short> status { get; set; }
         public Nullable<int> type_id { get; set; }
+        public Nullable<int> count { get; set; }
+        public Nullable<decimal> price { get; set; }
+        public Nullable<int> payType { get; set; }
     
         public virtual Users Users { get; set; }
         public virtual OrderType OrderType { get; set; }

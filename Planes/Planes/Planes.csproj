@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="jpush-api">
+      <HintPath>..\..\..\..\..\Desktop\jpush-api-csharp-client-3.0.1\cn.jpush.api\bin\Debug\jpush-api.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -181,6 +184,7 @@
     <Compile Include="Controllers\AdsController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\AreaController.cs" />
+    <Compile Include="Controllers\CallbackController.cs" />
     <Compile Include="Controllers\EntryController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FeedbackController.cs" />
@@ -192,9 +196,11 @@
     <Compile Include="Controllers\MessageCommentController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PlaneController.cs" />
+    <Compile Include="Controllers\PushMessageController.cs" />
     <Compile Include="Controllers\SalePlaneController.cs" />
     <Compile Include="Controllers\SchoolController.cs" />
     <Compile Include="Controllers\SellerMessageController.cs" />
+    <Compile Include="Controllers\UserCommentController.cs" />
     <Compile Include="Models\Admins.cs">
       <DependentUpon>PlanelDb.tt</DependentUpon>
     </Compile>
@@ -203,6 +209,9 @@
     </Compile>
     <Compile Include="Models\AdsViewModel.cs" />
     <Compile Include="Models\Airports.cs">
+      <DependentUpon>PlanelDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Alipay.cs">
       <DependentUpon>PlanelDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ApiModel.cs" />
@@ -221,6 +230,7 @@
     <Compile Include="Models\AspNetUsers.cs">
       <DependentUpon>PlanelDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CallbackModel.cs" />
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>PlanelDb.tt</DependentUpon>
     </Compile>
@@ -302,6 +312,10 @@
     </Compile>
     <Compile Include="Models\PlaneViewModel.cs" />
     <Compile Include="Models\AirportViewModels.cs" />
+    <Compile Include="Models\PushMessage.cs">
+      <DependentUpon>PlanelDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PushMessageViewModel.cs" />
     <Compile Include="Models\SellerGroup.cs">
       <DependentUpon>PlanelDb.tt</DependentUpon>
     </Compile>
@@ -315,6 +329,9 @@
       <DependentUpon>PlanelDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>PlanelDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserCollect.cs">
       <DependentUpon>PlanelDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserCommentImages.cs">
@@ -332,9 +349,14 @@
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Tools\Alipay\AlipayConfig.cs" />
+    <Compile Include="Tools\Alipay\AlipayCore.cs" />
+    <Compile Include="Tools\Alipay\AlipayNotify.cs" />
+    <Compile Include="Tools\Alipay\RSA.cs" />
     <Compile Include="Tools\ErrorAttribute.cs" />
     <Compile Include="Tools\LoginAttribute.cs" />
     <Compile Include="Tools\MSession.cs" />
+    <Compile Include="Tools\Push.cs" />
     <Compile Include="Tools\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -803,11 +825,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\error.png" />
+    <Content Include="Images\error404.png" />
     <Content Include="Images\Planes\14cabf4c9eb7fd55ad140bbb940c14b4.jpg" />
     <Content Include="Images\Planes\402c43b818c0d9d8f71e28bc61a40a3a.jpg" />
     <Content Include="Images\Planes\45eed65028c5bfc97da15c3d8b8545e2.jpg" />
     <Content Include="Images\Planes\default.png" />
     <Content Include="Images\Sellers\default.png" />
+    <Content Include="Logs\readme.txt" />
     <Content Include="Scripts\bdmap.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap-wysiwyg.js" />
@@ -1156,6 +1181,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <None Include="Tools\version" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1167,7 +1193,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
@@ -1249,15 +1274,21 @@
     <Content Include="Views\Api\Test.cshtml" />
     <Content Include="Views\Entry\Index.cshtml" />
     <Content Include="Views\Feedback\Index.cshtml" />
+    <Content Include="Views\PushMessage\Index.cshtml" />
+    <Content Include="Views\PushMessage\Create.cshtml" />
+    <Content Include="Views\Callback\Test.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\Error404.cshtml" />
+    <Content Include="Views\UserComment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Fakes\" />
     <Folder Include="Images\Ads\" />
+    <Folder Include="Images\Area\" />
     <Folder Include="Images\Goods\" />
     <Folder Include="Images\SellerMessage\" />
     <Folder Include="Images\Users\" />
-    <Folder Include="Views\Error\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -35,7 +35,7 @@
                         }
                         else
                         {
-                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control",disabled = "true" })
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control",@readonly = "true" })
                         }
                     </div>
                     <div class="col-sm-2">
@@ -195,7 +195,7 @@
             allowedFileTypes: ['image'],
             allowedFileExtensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'],
             initialPreview: [
-                "<img src='/@Model.ImgUrl' class='file-preview-image' >"
+                "<img src='@Model.ImgUrl' class='file-preview-image' >"
             ],
             overwriteInitial: true,
             showUpload: false

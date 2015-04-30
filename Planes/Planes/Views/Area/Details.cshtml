@@ -9,7 +9,7 @@
         <a class="button button-large button-primary button-border button-circle" href="/Area"><i class="fa fa-reply"></i></a>
     </div>
     <div class="col-md-10">
-        @using (Html.BeginForm("Details", "Area", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        @using (Html.BeginForm("Details", "Area", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
         {
             @Html.ValidationSummary("", new { @class = "text-danger" })
             @Html.HiddenFor(m => m.Id);
@@ -40,6 +40,12 @@
                     @Html.TextBoxFor(m => m.Address, new { @class = "form-control",disabled = "true" })
                 </div>
             </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">展示图片</label>
+        <div class="col-sm-6">
+            <input type="file" name="Img" id="Img" data-preview-file-type="image" class="form-control" />
+        </div>
+    </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-4" id="MOD">
                     <a class="btn btn-warning btn-block" onclick="mod()">修改</a>
@@ -82,6 +88,16 @@
         });
     })
     
+    $("#Img").fileinput({
+        allowedFileTypes: ['image'],
+        allowedFileExtensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'],
+        initialPreview: [
+            "<img src='/@Model.ImgUrl' class='file-preview-image' >"
+        ],
+        overwriteInitial: true,
+        showUpload: false
+    });
+
     function mod() {
         $(".form-control").removeAttr("disabled");
         map.addEventListener("click", function (e) {

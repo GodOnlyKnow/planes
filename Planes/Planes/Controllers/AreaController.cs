@@ -43,7 +43,8 @@ namespace Planes.Controllers
                 Address = area.address,
                 Lng = loc[0],
                 Lat = loc[1],
-                Id = area.area_id
+                Id = area.area_id,
+                ImgUrl = area.img
             };
             return View(model);
         }
@@ -66,7 +67,8 @@ namespace Planes.Controllers
                     {
                         address = model.Address,
                         name = model.Name,
-                        location = model.Lng + "|" + model.Lat
+                        location = model.Lng + "|" + model.Lat,
+                        img = FileTool.Save(model.Img,"Images/Area")
                     });
                     db.SaveChanges();
                     ModelState.AddModelError("", "保存成功");
@@ -99,15 +101,18 @@ namespace Planes.Controllers
                     area.name = model.Name;
                     area.address = model.Address;
                     area.location = model.Lng + "|" + model.Lat;
+                    if (model.Img != null)
+                        area.img = FileTool.Save(model.Img,"Images/Area");
+                    model.ImgUrl = area.img;
                     db.SaveChanges();
                     ModelState.AddModelError("","保存成功");
                 }
-                return View();
+                return View(model);
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                return View();
+                return View(model);
             }
         }
 

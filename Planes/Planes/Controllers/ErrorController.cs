@@ -11,13 +11,12 @@ namespace Planes.Controllers
         // GET: Error
         public ActionResult Index()
         {
-            
-            return View("Error");
+            return View();
         }
 
-        public ActionResult Error404(HandleErrorInfo model)
+        public ActionResult Error404()
         {
-            return View("Error",model);
+            return View();
         }
     }
 }

@@ -34,13 +34,6 @@ namespace Planes.Controllers
             model.GoodType = 9;
             if (ModelState.IsValid)
             {
-                string fileName = "default.png";
-                if (model.Img != null)
-                {
-                    var file = model.Img;
-                    fileName = MD5Tool.Encrypt(DateTime.Now.ToString("y-M-d H-m-s")) + Path.GetExtension(file.FileName);
-                    file.SaveAs(Path.Combine(HttpContext.Server.MapPath("~/Images/Planes"), fileName));
-                }
                 var good = db.Goods.Add(new Goods()
                 {
                     type_id = model.GoodType,
@@ -54,7 +47,7 @@ namespace Planes.Controllers
                     col8 = model.Col8,
                     collected = 0,
                     comments = 0,
-                    img = "Images/Planes/" + fileName,
+                    img = FileTool.Save(model.Img,"Images/Planes"),
                     created_at = DateTime.Now,
                     GoodTypes = db.GoodTypes.Where(t => t.type_id == model.GoodType).First(),
                     is_lock = 1,
